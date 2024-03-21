@@ -316,12 +316,24 @@ official_race_results_tbl |>
     filter(
         year(date) == 2024,
         !is.na(official_time)) |> 
-    select(date:official_pace, -miles) |> 
+    select(date, race, corral, official_time, official_pace, url) |> 
     arrange(desc(date)) |> 
     DT::datatable(
         rownames = FALSE,
         escape = FALSE,
-        options = list(bPaginate = FALSE),
+        options = list(
+            bPaginate = FALSE,
+            columnDefs = list(
+                list(targets = 5, visible = FALSE),
+                list(targets = 1, render = DT::JS(
+                    "function(data, type, row){
+                      if(type === 'display' && row[5] !== null){
+                        var a = '<a href=\"' + row[5] + '\">' + data + '</a>';
+                        return a;
+                      } else {
+                        return data;
+                      }
+                    }")))),
         colnames = c(
             "Date" = "date",
             "Race" = "race",
@@ -453,12 +465,24 @@ official_race_results_tbl |>
     filter(
         year(date) == 2023,
         !is.na(official_time)) |> 
-    select(date:official_pace, -miles) |> 
+    select(date, race, corral, official_time, official_pace, url) |> 
     arrange(desc(date)) |> 
     DT::datatable(
         rownames = FALSE,
         escape = FALSE,
-        options = list(bPaginate = FALSE),
+        options = list(
+            bPaginate = FALSE,
+            columnDefs = list(
+                list(targets = 5, visible = FALSE),
+                list(targets = 1, render = DT::JS(
+                    "function(data, type, row){
+                      if(type === 'display' && row[5] !== null){
+                        var a = '<a href=\"' + row[5] + '\">' + data + '</a>';
+                        return a;
+                      } else {
+                        return data;
+                      }
+                    }")))),
         colnames = c(
             "Date" = "date",
             "Race" = "race",
@@ -589,12 +613,24 @@ official_race_results_tbl |>
     filter(
         year(date) == 2022,
         !is.na(official_time)) |> 
-    select(date:official_pace, -miles) |> 
+    select(date, race, corral, official_time, official_pace, url) |> 
     arrange(desc(date)) |> 
     DT::datatable(
         rownames = FALSE,
         escape = FALSE,
-        options = list(bPaginate = FALSE),
+        options = list(
+            bPaginate = FALSE,
+            columnDefs = list(
+                list(targets = 5, visible = FALSE),
+                list(targets = 1, render = DT::JS(
+                    "function(data, type, row){
+                      if(type === 'display' && row[5] !== null){
+                        var a = '<a href=\"' + row[5] + '\">' + data + '</a>';
+                        return a;
+                      } else {
+                        return data;
+                      }
+                    }")))),
         colnames = c(
             "Date" = "date",
             "Race" = "race",
