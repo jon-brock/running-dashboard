@@ -4,3 +4,5 @@
 .Ruserdata
 credentials.yaml
 .httr-oauth
+code_sandbox.R
+*.RProj
