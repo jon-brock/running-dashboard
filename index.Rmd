@@ -333,12 +333,12 @@ official_race_results_tbl |>
 Row
 -------------------------------------
 
-### **2024 Weekly Mileage (excludes races)** {.no-padding}
+### **2024 Weekly Mileage (includes races)** {.no-padding}
 
 ```{r run-mileage-totals-by-week-2024}
 plt_weekly_mileage_2024 <- 
     running_log |> 
-    filter(run_year == 2024, is_race == FALSE) |> 
+    filter(run_year == 2024) |> 
     select(run_date, distance_mile) %>%
     left_join(x = lst_years$y2024, y = ., by = c("date" = "run_date")) |> 
     mutate(
@@ -470,12 +470,12 @@ official_race_results_tbl |>
 Row
 -------------------------------------
 
-### **2023 Weekly Mileage (excludes races)** {.no-padding}
+### **2023 Weekly Mileage (includes races)** {.no-padding}
 
 ```{r run-mileage-totals-by-week-2023}
 plt_weekly_mileage_2023 <- 
     running_log |> 
-    filter(run_year == 2023, is_race == FALSE) |> 
+    filter(run_year == 2023) |> 
     select(run_date, distance_mile) %>%
     left_join(x = lst_years$y2023, y = ., by = c("date" = "run_date")) |> 
     mutate(
@@ -606,12 +606,12 @@ official_race_results_tbl |>
 Row
 -------------------------------------
 
-### **2022 Weekly Mileage (excludes races)** {.no-padding}
+### **2022 Weekly Mileage (includes races)** {.no-padding}
 
 ```{r run-mileage-totals-by-week-2022}
 plt_weekly_mileage_2022 <- 
     running_log |> 
-    filter(run_year == 2022, is_race == FALSE) |> 
+    filter(run_year == 2022) |> 
     select(run_date, distance_mile) %>% 
     left_join(x = lst_years$y2022, y = ., by = c("date" = "run_date")) |> 
     mutate(
