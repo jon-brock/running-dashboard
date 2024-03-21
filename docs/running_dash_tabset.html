@@ -1,0 +1,2868 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title>Running Dashboard</title>
+
+<meta property="og:title" content="Running Dashboard" />
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+
+<link rel="icon" href="data:image/x-icon;" type="image/x-icon">
+
+
+<script type="text/javascript">
+window.FlexDashboardComponents = [];
+</script>
+
+<script id="flexdashboard-navbar" type="application/json">
+[{"title":"Source Code","icon":"fa-code","href":"source_embed","align":"right"}]
+</script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/stickytableheaders-0.1.19/jquery.stickytableheaders.min.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/value-box-accent-static-0.6.2/theme-bootstrap-value-box.css" rel="stylesheet" />
+<link href="site_libs/featherlight-1.3.5/featherlight.min.css" rel="stylesheet" />
+<script src="site_libs/featherlight-1.3.5/featherlight.min.js"></script>
+<link href="site_libs/prism-1.4.1/prism.css" rel="stylesheet" />
+<script src="site_libs/prism-1.4.1/prism.js"></script>
+<link href="site_libs/flexdashboard-css-0.6.2/flexdashboard.min.css" rel="stylesheet" />
+<link href="site_libs/flexdashboard-css-0.6.2/theme-bootstrap.css" rel="stylesheet" />
+<link href="site_libs/value-box-core-0.6.2/value-box.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.31/datatables.js"></script>
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<style type="text/css">
+/*
+  CSS for flexdashboard.js' use of Sly(). The sizing/position of this CSS needs to be
+  applied _before_ flexdashboard.js initializes, which is why this CSS has been pulled
+  out from flexdashboard.scss and inlined in the document's head.
+*/
+
+.storyboard-nav button {
+  background: transparent;
+  border: 0;
+  opacity: .3;
+  outline: none;
+  padding: 0;
+}
+
+.storyboard-nav button:hover,
+.storyboard-nav button:hover {
+  opacity: .5;
+}
+
+.storyboard-nav button:disabled,
+.storyboard-nav button:disabled {
+  opacity: .1;
+}
+
+.storyboard-nav .sbnext,
+.storyboard-nav .sbprev {
+  float: left;
+  width: 2%;
+  height: 120px;
+}
+
+.storyboard-nav .sbprev {
+  text-align: left;
+  width: 2%;
+}
+
+.storyboard-nav .sbnext {
+  float: right;
+  text-align: right;
+  margin-right: 8px;
+}
+
+.storyboard-nav .sbframelist {
+  margin: 0 auto;
+  width: 94%;
+  height: 120px;
+  overflow: hidden;
+  text-shadow: none;
+  margin-bottom: 8px;
+}
+
+.storyboard-nav .sbframelist ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.storyboard-nav .sbframelist ul li {
+  float: left;
+  width: 270px;
+  height: 100%;
+  padding: 10px 10px 10px 10px;
+  margin-right: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.storyboard-nav .sbframelist ul li:last-child {
+  margin-right: 0px;
+}
+
+.sbframe-commentary {
+  width: 300px;
+}
+
+.sbframe-commentary ul {
+  padding-left: 22px;
+}
+
+.sbframe.active {
+  display: flex;
+}
+
+.sbframe:not(.active) {
+  display: none;
+}
+@media only screen and (min-width: 768px) {
+html, body {
+  height: 100%;
+}
+
+#dashboard-container {
+  height: 100%;
+}
+}
+</style>
+
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="container-fluid">
+<div class="navbar-header">
+
+<span class="navbar-logo pull-left">
+  
+</span>
+<span class="navbar-brand">
+  Running Dashboard
+  <span class="navbar-author">
+        </span>
+</span>
+
+<button id="navbar-button" type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+
+</div>
+<div id="navbar" class="navbar-collapse collapse">
+<ul class="nav navbar-nav navbar-left">
+</ul>
+<ul class="nav navbar-nav navbar-right">
+</ul>
+</div><!--/.nav-collapse-->
+</div><!--/.container-->
+</div><!--/.navbar-->
+
+<script type="text/javascript">
+
+
+var FlexDashboard = (function () {
+
+  // initialize options
+  var _options = {};
+
+  var FlexDashboard = function() {
+
+    // default options
+    _options = $.extend(_options, {
+      theme: "cosmo",
+      fillPage: false,
+      orientation: 'columns',
+      storyboard: false,
+      defaultFigWidth: 576,
+      defaultFigHeight: 461,
+      defaultFigWidthMobile: 360,
+      defaultFigHeightMobile: 461,
+      isMobile: false,
+      isPortrait: false,
+      resize_reload: true
+    });
+  };
+
+  function init(options) {
+
+    // extend default options
+    $.extend(true, _options, options);
+
+    // add ids to sections that don't have them (pandoc won't assign ids
+    // to e.g. sections with titles consisting of only chinese characters)
+    var nextId = 1;
+    $('.level1:not([id]),.level2:not([id]),.level3:not([id])').each(function() {
+      $(this).attr('id', 'dashboard-' + nextId++);
+    });
+
+    // find navbar items
+    var navbarItems = $('#flexdashboard-navbar');
+    if (navbarItems.length)
+      navbarItems = JSON.parse(navbarItems.html());
+    addNavbarItems(navbarItems);
+
+    // find the main dashboard container
+    var dashboardContainer = $('#dashboard-container');
+
+    // resolve mobile classes
+    resolveMobileClasses(dashboardContainer);
+
+    // one time global initialization for components
+    componentsInit(dashboardContainer);
+
+    // look for a global sidebar
+    var globalSidebar = dashboardContainer.find(".section.level1.sidebar");
+    if (globalSidebar.length > 0) {
+
+      // global layout for fullscreen displays
+      if (!isMobilePhone()) {
+
+         // hoist it up to the top level
+         globalSidebar.insertBefore(dashboardContainer);
+
+         // lay it out (set width/positions)
+         layoutSidebar(globalSidebar, dashboardContainer);
+
+      // tuck sidebar into first page for mobile phones
+      } else {
+
+        // convert it into a level3 section
+        globalSidebar.removeClass('sidebar');
+        globalSidebar.removeClass('level1');
+        globalSidebar.addClass('level3');
+        var h1 = globalSidebar.children('h1');
+        var h3 = $('<h3></h3>');
+        h3.append(h1.contents());
+        h3.insertBefore(h1);
+        h1.detach();
+
+        // move it into the first page
+        var page = dashboardContainer.find('.section.level1').first();
+        if (page.length > 0)
+          page.prepend(globalSidebar);
+      }
+    }
+
+    // look for pages to layout
+    var pages = $('div.section.level1');
+    if (pages.length > 0) {
+
+        // find the navbar and collapse on clicked
+        var navbar = $('#navbar');
+        navbar.on("click", "a[data-toggle!=dropdown]", null, function () {
+           navbar.collapse('hide');
+        });
+
+        // envelop the dashboard container in a tab content div
+        dashboardContainer.wrapInner('<div class="tab-content"></div>');
+
+        pages.each(function(index) {
+
+          // lay it out
+          layoutDashboardPage($(this));
+
+          // add it to the navbar
+          addToNavbar($(this), index === 0);
+
+        });
+
+    } else {
+
+      // remove the navbar and navbar button if we don't
+      // have any navbuttons
+      if (navbarItems.length === 0) {
+        $('#navbar').remove();
+        $('#navbar-button').remove();
+      }
+
+      // add the storyboard class if requested
+      if (_options.storyboard)
+        dashboardContainer.addClass('storyboard');
+
+      // layout the entire page
+      layoutDashboardPage(dashboardContainer);
+    }
+
+    // if we are in shiny we need to trigger a window resize event to
+    // force correct layout of shiny-bound-output elements
+    if (isShinyDoc())
+      $(window).trigger('resize');
+
+    // make main components visible
+    $('.section.sidebar').css('visibility', 'visible');
+    dashboardContainer.css('visibility', 'visible');
+
+    // handle location hash
+    handleLocationHash();
+
+    // intialize prism highlighting
+    initPrismHighlighting();
+
+    // record mobile and orientation state then register a handler
+    // to refresh if resize_reload is set to true and it changes
+    _options.isMobile = isMobilePhone();
+    _options.isPortrait = isPortrait();
+    if (_options.resize_reload) {
+      $(window).on('resize', function() {
+        if (_options.isMobile !== isMobilePhone() ||
+            _options.isPortrait !== isPortrait()) {
+          window.location.reload();
+        }
+      });
+    } else {
+      // if in desktop mode and resizing to mobile, make sure the heights are 100%
+      // This enforces what `fillpage.css` does for "wider" pages.
+      // Since we are not reloading once the page becomes small, we need to force the height to 100%
+      // This is a new situation introduced when `_options.resize_reload` is `false`
+      if (! _options.isMobile) {
+        // only add if `fillpage.css` was added in the first place
+        if (_options.fillPage) {
+          // fillpage.css
+          $("html,body,#dashboard").css("height", "100%");
+        }
+      }
+    }
+    // trigger layoutcomplete event
+    dashboardContainer.trigger('flexdashboard:layoutcomplete');
+  }
+
+  function resolveMobileClasses(dashboardContainer) {
+     // add top level layout class
+    dashboardContainer.addClass(isMobilePhone() ? 'mobile-layout' :
+                                                  'desktop-layout');
+
+    // look for .mobile sections and add .no-mobile to their peers
+    var mobileSections = $('.section.mobile');
+    mobileSections.each(function() {
+       var id = $(this).attr('id');
+       var nomobileId = id.replace(/-\d+$/, '');
+       $('#' + nomobileId).addClass('no-mobile');
+    });
+  }
+
+  function addNavbarItems(navbarItems) {
+
+    var navbarLeft = $('ul.navbar-left');
+    var navbarRight = $('ul.navbar-right');
+
+    for (var i = 0; i<navbarItems.length; i++) {
+
+      // get the item
+      var item = navbarItems[i];
+
+      // determine the container
+      var container = null;
+      if (item.align === "left")
+        container = navbarLeft;
+      else
+        container = navbarRight;
+
+      // navbar menu if we have multiple items
+      if (item.items) {
+        var menu = navbarMenu(null, item.icon, item.title, container);
+        for (var j = 0; j<item.items.length; j++) {
+          var subItem = item.items[j];
+          var li = $('<li></li>');
+          var a = navbarLink(subItem.icon, subItem.title, subItem.href, subItem.target);
+          a.removeClass("nav-link").addClass("dropdown-item");
+          li.append(a);
+          menu.append(li);
+        }
+      } else {
+        var li = $('<li class="nav-item"></li>');
+        li.append(navbarLink(item.icon, item.title, item.href, item.target));
+        container.append(li);
+      }
+    }
+  }
+
+  // create or get a reference to an existing dropdown menu
+  function navbarMenu(id, icon, title, container) {
+    var existingMenu = [];
+    if (id)
+      existingMenu = container.children('#' + id);
+    if (existingMenu.length > 0) {
+      return existingMenu.children('ul');
+    } else {
+      var li = $('<li class="nav-item"></li>');
+      if (id)
+        li.attr('id', id);
+      li.addClass('dropdown');
+      // auto add "Share" title on mobile if necessary
+      if (!title && icon && (icon === "fa-share-alt") && isMobilePhone())
+        title = "Share";
+      if (title) {
+        title = title + ' <span class="caret"></span>';
+      }
+      var a = navbarLink(icon, title, "#");
+      a.addClass('dropdown-toggle');
+      a.attr('data-toggle', 'dropdown');
+      a.attr('data-bs-toggle', 'dropdown');
+      a.attr('role', 'button');
+      a.attr('aria-expanded', 'false');
+      li.append(a);
+      var ul = $('<ul class="dropdown-menu"></ul>');
+      ul.attr('role', 'menu');
+      li.append(ul);
+      container.append(li);
+      return ul;
+    }
+  }
+
+  function addToNavbar(page, active) {
+
+    // capture the id and data-icon attribute (if any)
+    var id = page.attr('id');
+    var icon = page.attr('data-icon');
+    var navmenu = page.attr('data-navmenu');
+    var navmenuIcon = page.attr('data-navmenu-icon');
+
+    // get hidden state (transfer this to navbar)
+    var hidden = page.hasClass('hidden');
+    page.removeClass('hidden');
+
+    // sanitize the id for use with bootstrap tabs
+    id = id.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_');
+    page.attr('id', id);
+
+    // get the wrapper
+    var wrapper = page.closest('.dashboard-page-wrapper');
+
+    // move the id to the wrapper
+    page.removeAttr('id');
+    wrapper.attr('id', id);
+
+    // add the tab-pane class to the wrapper
+    wrapper.addClass('tab-pane');
+
+    // get a reference to the h1, discover its inner contens, then detach it
+    var h1 = wrapper.find('h1').first();
+    var title = h1.contents();
+    h1.detach();
+
+    // create a navbar item
+    var li = $('<li></li>');
+    var a = navbarLink(icon, title, '#' + id);
+    a.attr('data-toggle', 'tab');
+    a.attr('data-bs-toggle', 'tab');
+    li.append(a);
+
+    // add it to the navbar (or navbar menu if specified)
+    var container = $('ul.navbar-left');
+    if (navmenu) {
+      var menuId = navmenu.replace(/\s+/g, '');
+      var menu = navbarMenu(menuId, navmenuIcon, navmenu, container);
+      li.find("> a").removeClass("nav-link").addClass("dropdown-item");
+      menu.append(li);
+    } else {
+      li.addClass("nav-item")
+      container.append(li);
+    }
+
+    // mark active tab and corresponding nav menu item
+    if (active)
+      $(a).tab("show");
+
+    // hide it if requested
+    if (hidden)
+      li.addClass('hidden');
+  }
+
+  function navbarLink(icon, title, href, target) {
+
+    var a = $('<a class="nav-link"></a>');
+    if (icon) {
+
+      // get the name of the icon set and icon
+      var dashPos = icon.indexOf("-");
+      var iconSet = null;
+      var iconSplit = icon.split(" ");
+      if (iconSplit.length > 1) {
+        iconSet = iconSplit[0];
+        icon = iconSplit.slice(1).join(" ");
+      } else {
+        iconSet = icon.substring(0, dashPos);
+      }
+      var iconName = icon.substring(dashPos + 1);
+
+      // create the icon
+      var iconElement = $('<span class="' + iconSet + ' ' + icon + '"></span>');
+      if (title)
+        iconElement.css('margin-right', '7px');
+      a.append(iconElement);
+      // if href is null see if we can auto-generate based on icon (e.g. social)
+      if (!href)
+        maybeGenerateLinkFromIcon(iconName, a);
+    }
+    if (title)
+      a.append(title);
+
+    // add the href.
+    if (href) {
+      if (href === "source_embed") {
+        a.attr('href', '#');
+        a.attr('data-featherlight', "#flexdashboard-source-code");
+        a.featherlight({
+            beforeOpen: function(event){
+              $('body').addClass('unselectable');
+            },
+            afterClose: function(event){
+              $('body').removeClass('unselectable');
+            }
+        });
+      } else {
+        a.attr('href', href);
+      }
+    }
+
+    // add the arget
+    if (target)
+      a.attr('target', target);
+
+    return a;
+  }
+
+  // auto generate a link from an icon name (e.g. twitter) when possible
+  function maybeGenerateLinkFromIcon(iconName, a) {
+
+     var serviceLinks = {
+      "twitter": "https://twitter.com/share?text=" + encodeURIComponent(document.title) + "&url="+encodeURIComponent(location.href),
+      "facebook": "https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(location.href),
+      "linkedin": "https://www.linkedin.com/shareArticle?mini=true&url="+encodeURIComponent(location.href) + "&title=" + encodeURIComponent(document.title),
+      "pinterest": "https://pinterest.com/pin/create/link/?url="+encodeURIComponent(location.href) + "&description=" + encodeURIComponent(document.title)
+    };
+
+    var makeSocialLink = function(a, href) {
+      a.attr('href', '#');
+      a.on('click', function(e) {
+        e.preventDefault();
+        window.open(href);
+      });
+    };
+
+    $.each(serviceLinks, function(key, value) {
+      if (iconName.indexOf(key) !== -1)
+        makeSocialLink(a, value);
+    });
+  }
+
+  // layout a dashboard page
+  function layoutDashboardPage(page) {
+
+    // use a page wrapper so that free form content above the
+    // dashboard appears at the top rather than the side (as it
+    // would without the wrapper in a column orientation)
+    var wrapper = $('<div class="dashboard-page-wrapper"></div>');
+    page.wrap(wrapper);
+
+    // if there are no level2 or level3 headers synthesize a level3
+    // header to contain the (e.g. frame it, scroll container, etc.)
+    var headers = page.find('h2,h3');
+    if (headers.length === 0)
+      page.wrapInner('<div class="section level3"></div>');
+
+    // hoist up any content before level 2 or level 3 headers
+    var children = page.children();
+    children.each(function(index) {
+      if ($(this).hasClass('level2') || $(this).hasClass('level3'))
+        return false;
+      $(this).insertBefore(page);
+    });
+
+    // determine orientation and fillPage behavior for distinct media
+    var orientation, fillPage, storyboard;
+
+    // media: mobile phone
+    if (isMobilePhone()) {
+
+      // if there is a sidebar we need to ensure it's content
+      // is properly framed as an h3
+      var sidebar = page.find('.section.sidebar');
+      sidebar.removeClass('sidebar');
+      sidebar.wrapInner('<div class="section level3"></div>');
+      var h2 = sidebar.find('h2');
+      var h3 = $('<h3></h3>');
+      h3.append(h2.contents());
+      h3.insertBefore(h2);
+      h2.detach();
+
+      // wipeout h2 elements then enclose them in a single h2
+      var level2 = page.find('div.section.level2');
+      level2.each(function() {
+        level2.children('h2').remove();
+        level2.children().unwrap();
+      });
+      page.wrapInner('<div class="section level2"></div>');
+
+      // substitute mobile images
+      if (isPortrait()) {
+        var mobileFigures = $('img.mobile-figure');
+        mobileFigures.each(function() {
+          // get the src (might be base64 encoded)
+          var src = $(this).attr('src');
+
+          // find it's peer
+          var id = $(this).attr('data-mobile-figure-id');
+          var img = $('img[data-figure-id=' + id + "]");
+          img.attr('src', src)
+             .attr('width', _options.defaultFigWidthMobile)
+             .attr('height', _options.defaultFigHeightMobile);
+        });
+      }
+
+      // hoist storyboard commentary into it's own section
+      if (page.hasClass('storyboard')) {
+        var commentaryHR = page.find('div.section.level3 hr');
+        commentaryHR.each(function() {
+          var commentary = $(this).nextAll().detach();
+          var commentarySection = $('<div class="section level3"></div>');
+          commentarySection.append(commentary);
+          commentarySection.insertAfter($(this).closest('div.section.level3'));
+          $(this).remove();
+        });
+      }
+
+      // force a non full screen layout by columns
+      orientation = _options.orientation = 'columns';
+      fillPage = _options.fillPage = false;
+      storyboard = _options.storyboard = false;
+
+    // media: desktop
+    } else {
+
+      // determine orientation
+      orientation = page.attr('data-orientation');
+      if (orientation !== 'rows' && orientation != 'columns')
+        orientation = _options.orientation;
+
+      // determine storyboard mode
+      storyboard = page.hasClass('storyboard');
+
+      // fillPage based on options (force for storyboard)
+      fillPage = _options.fillPage || storyboard;
+
+      // handle sidebar
+      var sidebar = page.find('.section.level2.sidebar');
+      if (sidebar.length > 0)
+        layoutSidebar(sidebar, page);
+    }
+
+    // give it and it's parent divs height: 100% if we are in fillPage mode
+    if (fillPage) {
+      page.addClass('vertical-layout-fill');
+      page.css('height', '100%');
+      page.parents('div').css('height', '100%');
+    } else {
+      page.addClass('vertical-layout-scroll');
+    }
+
+    // perform the layout
+    if (storyboard)
+      layoutPageAsStoryboard(page);
+    else if (orientation === 'rows')
+      layoutPageByRows(page, fillPage);
+    else if (orientation === 'columns')
+      layoutPageByColumns(page, fillPage);
+  }
+
+  function layoutSidebar(sidebar, content) {
+
+    // get it out of the header hierarchy
+    sidebar = sidebar.first();
+    if (sidebar.hasClass('level1')) {
+      sidebar.removeClass('level1');
+      sidebar.children('h1').remove();
+    } else if (sidebar.hasClass('level2')) {
+      sidebar.removeClass('level2');
+      sidebar.children('h2').remove();
+    }
+
+    // determine width
+    var sidebarWidth = isTablet() ? 220 : 250;
+    var dataWidth = parseInt(sidebar.attr('data-width'));
+    if (dataWidth)
+      sidebarWidth = dataWidth;
+
+    // set the width and shift the page right to accomodate the sidebar
+    sidebar.css('width', sidebarWidth + 'px');
+    content.css('padding-left', sidebarWidth + 'px');
+
+    // wrap it's contents in a form
+    sidebar.wrapInner($('<form></form>'));
+  }
+
+  function layoutPageAsStoryboard(page) {
+
+    // create storyboard navigation
+    var nav = $('<div class="storyboard-nav"></div>');
+
+    // add navigation buttons
+    var prev = $('<button class="sbprev"><i class="fa fa-angle-left"></i></button>');
+    nav.append(prev);
+    var next= $('<button class="sbnext"><i class="fa fa-angle-right"></i></button>');
+    nav.append(next);
+
+    // add navigation frame
+    var frameList = $('<div class="sbframelist"></div>');
+    nav.append(frameList);
+    var ul = $('<ul></ul>');
+    frameList.append(ul);
+
+     // find all the level3 sections (those are the storyboard frames)
+    var frames = page.find('div.section.level3');
+    frames.each(function() {
+
+      // mark it
+      $(this).addClass('sbframe');
+
+      // divide it into chart content and (optional) commentary
+      $(this).addClass('dashboard-column-orientation');
+
+      // stuff the chart into it's own div w/ flex
+      $(this).wrapInner('<div class="sbframe-component"></div>');
+      setFlex($(this), 1);
+      var frame = $(this).children('.sbframe-component');
+
+      // extract the title from the h3
+      var li = $('<li></li>');
+      var h3 = frame.children('h3');
+      li.append(h3.contents());
+      h3.detach();
+      ul.append(li);
+
+      // extract commentary
+      var hr = frame.children('hr');
+      if (hr.length) {
+        var commentary = hr.nextAll().detach();
+        hr.remove();
+        var commentaryFrame = $('<div class="sbframe-commentary"></div>');
+        commentaryFrame.addClass('flowing-content-shim');
+        commentaryFrame.addClass('flowing-content-container');
+        commentaryFrame.append(commentary);
+        $(this).append(commentaryFrame);
+
+        // look for a data-commentary-width attribute
+        var commentaryWidth = $(this).attr('data-commentary-width');
+        if (commentaryWidth)
+          commentaryFrame.css('width', commentaryWidth + 'px');
+      }
+
+      // layout the chart (force flex)
+      var result = layoutChart(frame, true);
+
+      // ice the notes if there are none
+      if (!result.notes)
+        frame.find('.chart-notes').remove();
+
+      // set flex on chart
+      setFlex(frame, 1);
+    });
+
+    // create a div to hold all the frames
+    var frameContent = $('<div class="sbframe-content"></div>');
+    frameContent.addClass('dashboard-row-orientation');
+    frameContent.append(frames.detach());
+
+    // row orientation to stack nav and frame content
+    page.addClass('dashboard-row-orientation');
+    page.append(nav);
+    page.append(frameContent);
+    setFlex(frameContent, 1);
+
+    // initialize sly
+    var sly = new Sly(frameList, {
+    		horizontal: true,
+    		itemNav: 'basic',
+    		smart: true,
+    		activateOn: 'click',
+    		startAt: 0,
+    		scrollBy: 1,
+    		activatePageOn: 'click',
+    		speed: 200,
+    		moveBy: 600,
+    		dragHandle: true,
+    		dynamicHandle: true,
+    		clickBar: true,
+    		keyboardNavBy: 'items',
+    		next: next,
+    		prev: prev
+    	}).init();
+
+    // make first frame active
+    frames.removeClass('active');
+    frames.first().addClass('active');
+
+    // subscribe to frame changed events
+    sly.on('active', function (eventName, itemIndex) {
+      frames.removeClass('active');
+      frames.eq(itemIndex).addClass('active')
+                          .trigger('shown');
+    });
+  }
+
+  function layoutPageByRows(page, fillPage) {
+
+    // row orientation
+    page.addClass('dashboard-row-orientation');
+
+    // find all the level2 sections (those are the rows)
+    var rows = page.find('div.section.level2');
+
+    // if there are no level2 sections then treat the
+    // entire page as if it's a level 2 section
+    if (rows.length === 0) {
+      page.wrapInner('<div class="section level2"></div>');
+      rows = page.find('div.section.level2');
+    }
+
+    rows.each(function () {
+
+      // flags
+      var haveNotes = false;
+      var haveFlexHeight = true;
+
+      // remove the h2
+      $(this).children('h2').remove();
+
+      // check for a tabset
+      var isTabset = $(this).hasClass('tabset');
+      if (isTabset)
+        layoutTabset($(this));
+
+      // give it row layout semantics if it's not a tabset
+      if (!isTabset)
+        $(this).addClass('dashboard-row');
+
+      // find all of the level 3 subheads
+      var columns = $(this).find('div.section.level3');
+
+      // determine figureSizes sizes
+      var figureSizes = chartFigureSizes(columns);
+
+      // fixup the columns
+      columns.each(function(index) {
+
+        // layout the chart (force flex if we are in a tabset)
+        var result = layoutChart($(this), isTabset);
+
+        // update flexHeight state
+        if (!result.flex)
+          haveFlexHeight = false;
+
+        // update state
+        if (result.notes)
+          haveNotes = true;
+
+        // set the column flex based on the figure width
+        // (value boxes will just get the default figure width)
+        var chartWidth = figureSizes[index].width;
+        setFlex($(this), chartWidth + ' ' + chartWidth + ' 0px');
+
+      });
+
+      // remove empty chart note divs
+      if (isTabset)
+        $(this).find('.chart-notes').filter(function() {
+            return $(this).html() === "&nbsp;";
+        }).remove();
+      if (!haveNotes)
+        $(this).find('.chart-notes').remove();
+
+       // make it a flexbox row
+      if (haveFlexHeight)
+        $(this).addClass('dashboard-row-flex');
+
+      // now we can set the height on all the wrappers (based on maximum
+      // figure height + room for title and notes, or data-height on the
+      // container if specified). However, don't do this if there is
+      // no flex on any of the constituent columns
+      var flexHeight = null;
+      var dataHeight = parseInt($(this).attr('data-height'));
+      if (dataHeight)
+        flexHeight = adjustedHeight(dataHeight, columns.first());
+      else if (haveFlexHeight)
+        flexHeight = maxChartHeight(figureSizes, columns);
+      if (flexHeight) {
+        if (fillPage)
+          setFlex($(this), flexHeight + ' ' + flexHeight + ' 0px');
+        else {
+          $(this).css('height', flexHeight + 'px');
+          setFlex($(this), '0 0 ' + flexHeight + 'px');
+        }
+      }
+
+    });
+  }
+
+  function layoutPageByColumns(page, fillPage) {
+
+    // column orientation
+    page.addClass('dashboard-column-orientation');
+
+    // find all the level2 sections (those are the columns)
+    var columns = page.find('div.section.level2');
+
+    // if there are no level2 sections then treat the
+    // entire page as if it's a level 2 section
+    if (columns.length === 0) {
+      page.wrapInner('<div class="section level2"></div>');
+      columns = page.find('div.section.level2');
+    }
+
+    // layout each column
+    columns.each(function (index) {
+
+      // remove the h2
+      $(this).children('h2').remove();
+
+      // make it a flexbox column
+      $(this).addClass('dashboard-column');
+
+      // check for a tabset
+      var isTabset = $(this).hasClass('tabset');
+      if (isTabset)
+        layoutTabset($(this));
+
+      // find all the h3 elements
+      var rows = $(this).find('div.section.level3');
+
+      // get the figure sizes for the rows
+      var figureSizes = chartFigureSizes(rows);
+
+      // column flex is the max row width (or data-width if specified)
+      var flexWidth;
+      var dataWidth = parseInt($(this).attr('data-width'));
+      if (dataWidth)
+        flexWidth = dataWidth;
+      else
+        flexWidth = maxChartWidth(figureSizes);
+      setFlex($(this), flexWidth + ' ' + flexWidth + ' 0px');
+
+      // layout each chart
+      rows.each(function(index) {
+
+        // perform the layout
+        var result = layoutChart($(this), false);
+
+        // ice the notes if there are none
+        if (!result.notes)
+          $(this).find('.chart-notes').remove();
+
+        // set flex height based on figHeight, then adjust
+        if (result.flex) {
+          var chartHeight = figureSizes[index].height;
+          chartHeight = adjustedHeight(chartHeight, $(this));
+          if (fillPage)
+            setFlex($(this), chartHeight + ' ' + chartHeight + ' 0px');
+          else {
+            $(this).css('height', chartHeight + 'px');
+            setFlex($(this), chartHeight + ' ' + chartHeight + ' ' + chartHeight + 'px');
+          }
+        }
+      });
+    });
+  }
+
+  function chartFigureSizes(charts) {
+
+    // sizes
+    var figureSizes = new Array(charts.length);
+
+    // check each chart
+    charts.each(function(index) {
+
+      // start with default
+      figureSizes[index] = {
+        width: _options.defaultFigWidth,
+        height: _options.defaultFigHeight
+      };
+
+      // look for data-height or data-width then knit options
+      var dataWidth = parseInt($(this).attr('data-width'));
+      var dataHeight = parseInt($(this).attr('data-height'));
+      var knitrOptions = $(this).find('.knitr-options:first');
+      var knitrWidth, knitrHeight;
+      if (knitrOptions) {
+        knitrWidth = parseInt(knitrOptions.attr('data-fig-width'));
+        knitrHeight =  parseInt(knitrOptions.attr('data-fig-height'));
+      }
+
+      // width
+      if (dataWidth)
+        figureSizes[index].width = dataWidth;
+      else if (knitrWidth)
+        figureSizes[index].width = knitrWidth;
+
+      // height
+      if (dataHeight)
+        figureSizes[index].height = dataHeight;
+      else if (knitrHeight)
+        figureSizes[index].height = knitrHeight;
+    });
+
+    // return sizes
+    return figureSizes;
+  }
+
+  function maxChartHeight(figureSizes, charts) {
+
+    // first compute the maximum height
+    var maxHeight = _options.defaultFigHeight;
+    for (var i = 0; i<figureSizes.length; i++)
+      if (figureSizes[i].height > maxHeight)
+        maxHeight = figureSizes[i].height;
+
+    // now add offests for chart title and chart notes
+    if (charts.length)
+      maxHeight = adjustedHeight(maxHeight, charts.first());
+
+    return maxHeight;
+  }
+
+  function adjustedHeight(height, chart) {
+    if (chart.length > 0) {
+      var chartTitle = chart.find('.chart-title');
+      if (chartTitle.length)
+        height += chartTitle.first().outerHeight();
+      var chartNotes = chart.find('.chart-notes');
+      if (chartNotes.length)
+        height += chartNotes.first().outerHeight();
+    }
+    return height;
+  }
+
+  function maxChartWidth(figureSizes) {
+    var maxWidth = _options.defaultFigWidth;
+    for (var i = 0; i<figureSizes.length; i++)
+      if (figureSizes[i].width > maxWidth)
+        maxWidth = figureSizes[i].width;
+    return maxWidth;
+  }
+
+  // layout a chart
+  function layoutChart(chart, forceFlex) {
+
+    // state to return
+    var result = {
+      notes: false,
+      flex: false
+    };
+
+    // extract the title
+    var title = extractTitle(chart);
+
+    // find components that apply to this container
+    var components = componentsFind(chart);
+
+    // if it's a custom component then call it and return
+    var customComponents = componentsCustom(components);
+    if (customComponents.length) {
+      componentsLayout(customComponents, title, chart);
+      result.notes = false;
+      result.flex = forceFlex || componentsFlex(customComponents);
+      return result;
+    }
+
+    // put all the content in a chart wrapper div
+    chart.addClass('chart-wrapper');
+    chart.wrapInner('<div class="chart-stage"></div>');
+    var chartContent = chart.children('.chart-stage');
+
+    // flex the content if appropriate
+    result.flex = forceFlex || componentsFlex(components);
+    if (result.flex) {
+      // add flex classes
+      chart.addClass('chart-wrapper-flex');
+      chartContent.addClass('chart-stage-flex');
+
+      // additional shim to break out of flexbox sizing
+      chartContent.wrapInner('<div class="chart-shim"></div>');
+      chartContent = chartContent.children('.chart-shim');
+    }
+
+    // set custom data-padding attribute
+    var pad = chart.attr('data-padding');
+    if (pad) {
+      if (pad === "0")
+        chart.addClass('no-padding');
+      else {
+        pad = pad + 'px';
+        chartContent.css('left', pad)
+                    .css('top', pad)
+                    .css('right', pad)
+                    .css('bottom', pad)
+      }
+    }
+
+    // call compoents
+    componentsLayout(components, title, chartContent);
+
+    // also activate components on shiny output
+    findShinyOutput(chartContent).on('shiny:value',
+      function(event) {
+        var element = $(event.target);
+        setTimeout(function() {
+
+          // see if we opted out of flex based on our output (for shiny
+          // we can't tell what type of output we have until after the
+          // value is bound)
+          var components = componentsFind(element);
+          var flex = forceFlex || componentsFlex(components);
+          if (!flex) {
+            chart.css('height', "");
+            setFlex(chart, "");
+            chart.removeClass('chart-wrapper-flex');
+            chartContent.removeClass('chart-stage-flex');
+            chartContent.children().unwrap();
+          }
+
+          // perform layout
+          componentsLayout(components, title, element.parent());
+        }, 10);
+      });
+
+    // add the title
+    var chartTitle = $('<div class="chart-title"></div>');
+    chartTitle.append(title);
+    chart.prepend(chartTitle);
+
+    // add the notes section
+    var chartNotes = $('<div class="chart-notes"></div>');
+    chartNotes.html('&nbsp;');
+    chart.append(chartNotes);
+
+    // attempt to extract notes if we have a component
+    if (components.length)
+      result.notes = extractChartNotes(chartContent, chartNotes);
+
+    // return result
+    return result;
+  }
+
+  // build a tabset from a section div with the .tabset class
+  function layoutTabset(tabset) {
+
+    // check for fade option
+    var fade = tabset.hasClass("tabset-fade");
+    var pills = tabset.hasClass("tabset-pills");
+    var navClass = pills ? "nav-pills" : "nav-tabs";
+
+    // determine the heading level of the tabset and tabs
+    var match = tabset.attr('class').match(/level(\d) /);
+    if (match === null)
+      return;
+    var tabsetLevel = Number(match[1]);
+    var tabLevel = tabsetLevel + 1;
+
+    // find all subheadings immediately below
+    var tabs = tabset.find("div.section.level" + tabLevel);
+    if (!tabs.length)
+      return;
+
+    // create tablist and tab-content elements
+    var tabList = $('<ul class="nav ' + navClass + '" role="tablist"></ul>');
+    $(tabs[0]).before(tabList);
+    var tabContent = $('<div class="tab-content"></div>');
+    $(tabs[0]).before(tabContent);
+
+    // build the tabset
+    var activeTab = 0;
+    tabs.each(function(i) {
+
+      // get the tab div
+      var tab = $(tabs[i]);
+
+      // get the id then sanitize it for use with bootstrap tabs
+      var id = tab.attr('id');
+
+      // see if this is marked as the active tab
+      if (tab.hasClass('active'))
+        activeTab = i;
+
+      // sanitize the id for use with bootstrap tabs
+      id = id.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_');
+      tab.attr('id', id);
+
+      // get the heading element within it and grab it's text
+      var heading = tab.find('h' + tabLevel + ':first');
+      var headingDom = heading.contents();
+
+      // build and append the tab list item
+      var a = $('<a role="tab" data-toggle="tab" data-bs-toggle="tab" class="nav-link"></a>');
+      a.append(headingDom);
+      a.attr('href', '#' + id);
+      a.attr('aria-controls', id);
+      var li = $('<li role="presentation" class="nav-item"></li>');
+      li.append(a);
+      tabList.append(li);
+
+      // set it's attributes
+      tab.attr('role', 'tabpanel');
+      tab.addClass('tab-pane');
+      tab.addClass('tabbed-pane');
+      tab.addClass('no-title');
+      if (fade)
+        tab.addClass('fade');
+
+      // move it into the tab content div
+      tab.detach().appendTo(tabContent);
+    });
+
+    // set active tab
+    $(tabList.children()[activeTab]).tab("show");
+    var active = $(tabContent.children('div.section')[activeTab]);
+    active.addClass('active');
+    if (fade)
+      active.addClass('in');
+
+    // add nav-tabs-custom
+    tabset.addClass('nav-tabs-custom');
+
+    // internal layout is dashboard-column with tab-content flexing
+    tabset.addClass('dashboard-column');
+    setFlex(tabContent, 1);
+  }
+
+  // one time global initialization for components
+  function componentsInit(dashboardContainer) {
+    for (var i=0; i<window.FlexDashboardComponents.length; i++) {
+      var component = window.FlexDashboardComponents[i];
+      if (component.init)
+        component.init(dashboardContainer);
+    }
+  }
+
+  // find components that apply within a container
+  function componentsFind(container) {
+
+    // look for components
+    var components = [];
+    for (var i=0; i<window.FlexDashboardComponents.length; i++) {
+      var component = window.FlexDashboardComponents[i];
+      if (component.find(container).length)
+        components.push(component);
+    }
+
+    // if there were none then use a special flowing content component
+    // that just adds a scrollbar in fillPage mode
+    if (components.length == 0) {
+      components.push({
+        find: function(container) {
+          return container;
+        },
+
+        flex: function(fillPage) {
+          return fillPage;
+        },
+
+        layout: function(title, container, element, fillPage) {
+          if (fillPage) {
+            container.addClass('flowing-content-shim');
+            container.addClass('flowing-content-container');
+          }
+        }
+      });
+    }
+
+    return components;
+  }
+
+  // if there is a custom component then pick it out
+  function componentsCustom(components) {
+    var customComponent = [];
+    for (var i=0; i<components.length; i++)
+      if (components[i].type === "custom") {
+        customComponent.push(components[i]);
+        break;
+      }
+    return customComponent;
+  }
+
+  // query all components for flex
+  function componentsFlex(components) {
+
+    // no components at all means no flex
+    if (components.length === 0)
+      return false;
+
+    // otherwise query components (assume true unless we see false)
+    var isMobile = isMobilePhone();
+    for (var i=0; i<components.length; i++)
+      if (components[i].flex && !components[i].flex(_options.fillPage))
+        return false;
+    return true;
+  }
+
+  // layout all components
+  function componentsLayout(components, title, container) {
+    var isMobile = isMobilePhone();
+    for (var i=0; i<components.length; i++) {
+      var element = components[i].find(container);
+      if (components[i].layout) {
+        // call layout (don't call other components if it returns false)
+        var result = components[i].layout(title, container, element, _options.fillPage);
+        if (result === false)
+          return;
+      }
+    }
+  }
+
+  // get a reference to the h3, discover it's inner html, and remove it
+  function extractTitle(container) {
+    var h3 = container.children('h3').first();
+    var title = '';
+    if (!container.hasClass('no-title'))
+      title = h3.contents();
+    h3.detach();
+    return title;
+  }
+
+  // extract chart notes
+  function extractChartNotes(chartContent, chartNotes) {
+    // look for a terminating blockquote or image caption
+    var blockquote = chartContent.children('blockquote:last-child');
+    var caption = chartContent.children('div.image-container')
+                              .children('p.caption');
+    if (blockquote.length) {
+      chartNotes.empty().append(blockquote.children('p:first-child').contents());
+      blockquote.remove();
+      return true;
+    } else if (caption.length) {
+      chartNotes.empty().append(caption.contents());
+      caption.remove();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function findShinyOutput(chartContent) {
+    return chartContent.find('.shiny-text-output, .shiny-html-output');
+  }
+
+  // safely detect rendering on a mobile phone
+  function isMobilePhone() {
+    try
+    {
+      return ! window.matchMedia("only screen and (min-width: 768px)").matches;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+
+  function isFillPage() {
+    return _options.fillPage;
+  }
+
+  // detect portrait mode
+  function isPortrait() {
+    return ($(window).width() < $(window).height());
+  }
+
+  // safely detect rendering on a tablet
+  function isTablet() {
+    try
+    {
+      return window.matchMedia("only screen and (min-width: 769px) and (max-width: 992px)").matches;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+
+  // test whether this is a shiny doc
+  function isShinyDoc() {
+    return (typeof(window.Shiny) !== "undefined" && !!window.Shiny.outputBindings);
+  }
+
+  // set flex using vendor specific prefixes
+  function setFlex(el, flex) {
+    el.css('-webkit-box-flex', flex)
+      .css('-webkit-flex', flex)
+      .css('-ms-flex', flex)
+      .css('flex', flex);
+  }
+
+  // support bookmarking of pages
+  function handleLocationHash() {
+
+    // restore tab/page from bookmark
+    var hash = window.decodeURIComponent(window.location.hash);
+    if (hash.length > 0) {
+      // Update the tab without .showPage() so that we don't change page history
+      $('ul.nav a[href="' + hash + '"]').tab('show');
+    }
+
+    // navigate to a tab when the history changes
+    window.addEventListener("popstate", function(e) {
+      var hash = window.decodeURIComponent(window.location.hash);
+      var activeTab = $('ul.nav a[href="' + hash + '"]');
+      if (activeTab.length) {
+        activeTab.tab('show');
+      } else {
+        // returning to the base page URL without a hash activates first tab
+        $('ul.nav a:first').tab('show');
+      }
+    });
+
+    // add a hash to the URL when the user clicks on a tab/page
+    $('.navbar-nav a[data-toggle="tab"]').on('click', function(e) {
+      var baseUrl = FlexDashboardUtils.urlWithoutHash(window.location.href);
+      var hash = FlexDashboardUtils.urlHash($(this).attr('href'));
+      var href = baseUrl + hash;
+      FlexDashboardUtils.setLocation(href);
+    });
+
+    // handle clicks of other links that should activate pages
+    var navPages = $('ul.navbar-nav li a[data-toggle=tab]');
+    navPages.each(function() {
+      var href =  $(this).attr('href');
+      var links = $('a[href="' + href + '"][data-toggle!=tab]');
+      links.each(function() {
+        $(this).on('click', function(e) {
+          window.FlexDashboardUtils.showPage(href);
+        });
+      });
+    });
+  }
+
+  // tweak Prism highlighting
+  function initPrismHighlighting() {
+
+    if (window.Prism) {
+      Prism.languages.insertBefore('r', 'comment', {
+        'heading': [
+          {
+            // title 1
+        	  // =======
+
+        	  // title 2
+        	  // -------
+        	  pattern: /\w+.*(?:\r?\n|\r)(?:====+|----+)/,
+            alias: 'operator'
+          },
+          {
+            // ### title 3
+            pattern: /(^\s*)###[^#].+/m,
+            lookbehind: true,
+            alias: 'operator'
+          }
+        ]
+      });
+
+      // prism highlight
+      Prism.highlightAll();
+    }
+  }
+
+  FlexDashboard.prototype = {
+    constructor: FlexDashboard,
+    init: init,
+    isMobilePhone: isMobilePhone,
+    isFillPage: isFillPage
+  };
+
+  return FlexDashboard;
+
+})();
+
+// utils
+window.FlexDashboardUtils = {
+  resizableImage: function(img) {
+    var src = img.attr('src');
+    var url = 'url("' + src + '")';
+    img.parent().css('background', url)
+                .css('background-size', 'contain')
+                .css('background-repeat', 'no-repeat')
+                .css('background-position', 'center')
+                .addClass('image-container');
+  },
+  setLocation: function(href) {
+    if (history && history.pushState) {
+      history.pushState(null, null, href);
+    } else {
+      window.location.replace(href);
+    }
+    setTimeout(function() {
+        window.scrollTo(0, 0);
+    }, 10);
+  },
+  showPage: function(href) {
+    $('ul.navbar-nav li a[href="' + href + '"]').tab('show');
+    var baseUrl = this.urlWithoutHash(window.location.href);
+    var loc = baseUrl + href;
+    this.setLocation(loc);
+  },
+  showLinkedValue: function(href) {
+    // check for a page link
+    if ($('ul.navbar-nav li a[data-toggle=tab][href="' + href + '"]').length > 0)
+      this.showPage(href);
+    else
+      window.open(href);
+  },
+  urlWithoutHash: function(url) {
+    var hashLoc = url.indexOf('#');
+    if (hashLoc != -1)
+      return url.substring(0, hashLoc);
+    else
+      return url;
+  },
+  urlHash: function(url) {
+    var hashLoc = url.indexOf('#');
+    if (hashLoc != -1)
+      return url.substring(hashLoc);
+    else
+      return "";
+  }
+};
+
+window.FlexDashboard = new FlexDashboard();
+
+// empty content
+window.FlexDashboardComponents.push({
+  find: function(container) {
+    if (container.find('p').length == 0)
+      return container;
+    else
+      return $();
+  }
+})
+
+// plot image
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('p')
+                    .children('img:only-child');
+  },
+
+  layout: function(title, container, element, fillPage) {
+    FlexDashboardUtils.resizableImage(element);
+  }
+});
+
+// plot image (figure style)
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('div.figure').children('img');
+  },
+
+  layout: function(title, container, element, fillPage) {
+    FlexDashboardUtils.resizableImage(element);
+  }
+});
+
+// htmlwidget
+window.FlexDashboardComponents.push({
+
+  init: function(dashboardContainer) {
+    // trigger "shown" after initial layout to force static htmlwidgets
+    // in runtime: shiny to be resized after the dom has been transformed
+    dashboardContainer.on('flexdashboard:layoutcomplete', function(event) {
+      setTimeout(function() {
+        dashboardContainer.trigger('shown');
+      }, 200);
+    });
+  },
+
+  find: function(container) {
+    return container.children('div[id^="htmlwidget-"],div.html-widget');
+  }
+});
+
+// gauge
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.children('div.html-widget.gauge');
+  },
+
+  flex: function(fillPage) {
+    return false;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+
+  }
+
+});
+
+// shiny output
+window.FlexDashboardComponents.push({
+  find: function(container) {
+    return container.children('div[class^="shiny-"]');
+  }
+});
+
+// bootstrap table
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    var bsTable = container.find('table.table');
+    if (bsTable.length !== 0)
+      return bsTable;
+    else
+      return container.find('tr.header').parent('thead').parent('table');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+    // alias variables
+    var bsTable = element;
+
+    // fixup xtable generated tables with a proper thead
+    var headerRow = bsTable.find('tbody > tr:first-child > th').parent();
+    if (headerRow.length > 0) {
+      var thead = $('<thead></thead>');
+      bsTable.prepend(thead);
+      headerRow.detach().appendTo(thead);
+    }
+
+    // improve appearance
+    container.addClass('bootstrap-table');
+
+    // for fill page provide scrolling w/ sticky headers
+    if (fillPage) {
+      // force scrollbar on overflow
+      container.addClass('flowing-content-shim');
+
+      // stable table headers when scrolling
+      bsTable.stickyTableHeaders({
+        scrollableArea: container
+      });
+    }
+  }
+});
+
+// embedded shiny app
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.find('iframe.shiny-frame');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+    if (fillPage) {
+      element.attr('height', '100%');
+    } else {
+      // provide default height if necessary
+      var height = element.get(0).style.height;
+      if (!height)
+        height = element.attr('height');
+      if (!height)
+        element.attr('height', 500);
+    }
+  }
+});
+
+// shiny fillRow or fillCol
+window.FlexDashboardComponents.push({
+
+  find: function(container) {
+    return container.find('.flexfill-container');
+  },
+
+  flex: function(fillPage) {
+    return fillPage;
+  },
+
+  layout: function(title, container, element, fillPage) {
+    if (fillPage)
+      element.css('height', '100%');
+    else {
+      // provide default height if necessary
+      var height = element.get(0).style.height;
+      if (height === "100%" || height === "auto" || height === "initial" ||
+          height === "inherit" || !height) {
+        element.css('height', 500);
+      }
+    }
+  }
+});
+
+// valueBox
+window.FlexDashboardComponents.push({
+
+  type: "custom",
+
+  find: function(container) {
+    if (container.find('span.value-output, .shiny-valuebox-output').length)
+      return container;
+    else
+      return $();
+  },
+
+  flex: function(fillPage) {
+    return false;
+  },
+
+  layout: function(title, container, element, fillPage) {
+
+    // alias variables
+    var chartTitle = title;
+    var valueBox = element;
+
+    // add value-box class to container
+    container.addClass('value-box');
+
+    // value paragraph
+    var value = $('<p class="value"></p>');
+
+    // if we have shiny-text-output then just move it in
+    var valueOutputSpan = [];
+    var shinyOutput = valueBox.find('.shiny-valuebox-output').detach();
+    if (shinyOutput.length) {
+      valueBox.children().remove();
+      shinyOutput.html("&mdash;");
+      value.append(shinyOutput);
+    } else {
+      // extract the value (remove leading vector index)
+      var chartValue = valueBox.text().trim();
+      chartValue = chartValue.replace("[1] ", "");
+      valueOutputSpan = valueBox.find('span.value-output').detach();
+      valueBox.children().remove();
+      value.text(chartValue);
+    }
+
+    // caption
+    var caption = $('<p class="caption"></p>');
+    caption.append(chartTitle);
+
+    // build inner div for value box and add it
+    var inner = $('<div class="inner"></div>');
+    inner.append(value);
+    inner.append(caption);
+    valueBox.append(inner);
+
+    // add icon if specified
+    var icon = $('<div class="icon"><i></i></div>');
+    valueBox.append(icon);
+    function setIcon(chartIcon) {
+      var iconLib = "";
+      var iconSplit = chartIcon.split(" ");
+      if (iconSplit.length > 1) {
+        iconLib = iconSplit[0];
+        chartIcon = iconSplit.slice(1).join(" ");
+      } else {
+        var components = chartIcon.split("-");
+        if (components.length > 1)
+          iconLib = components[0];
+      }
+      icon.children('i').attr('class', iconLib + ' ' + chartIcon);
+    }
+    var chartIcon = valueBox.attr('data-icon');
+    if (chartIcon)
+      setIcon(chartIcon);
+
+    // handle data attributes in valueOutputSpan
+    function handleValueOutput(valueOutput) {
+
+      // caption
+      var dataCaption = valueOutput.attr('data-caption');
+      if (dataCaption)
+        caption.html(dataCaption);
+
+      // icon
+      var dataIcon = valueOutput.attr('data-icon');
+      if (dataIcon)
+        setIcon(dataIcon);
+
+      // If valueBox(color=) was an accent color, this attr should
+      // be populated with the accent color and the relevant CSS comes
+      // in through HTML dependencies
+      var dataColorAccent = valueOutput.attr('data-color-accent');
+      var valueBoxClasses = "value-box-" + (["primary", "info", "danger", "warning", "success"].join(" value-box-"));
+      if (dataColorAccent) {
+        valueBox.removeClass(valueBoxClasses);
+        valueBox.addClass('value-box-' + dataColorAccent);
+      }
+
+      // If valueBox(color=) was a CSS color, these other data-color-*
+      // attrs will be populated
+      var dataColor = valueOutput.attr('data-color');
+      if (dataColor) {
+        valueBox.removeClass(valueBoxClasses);
+        valueBox.css('background-color', dataColor);
+      }
+      var dataColorText = valueOutput.attr('data-color-text');
+      if (dataColorText) {
+        valueBox.find(".inner").css('color', dataColorText);
+      }
+      var dataColorIcon = valueOutput.attr('data-color-icon');
+      if (dataColorIcon) {
+        valueBox.find(".icon").css('color', dataColorIcon);
+      }
+
+      // url
+      var dataHref = valueOutput.attr('data-href');
+      if (dataHref) {
+        valueBox.addClass('linked-value');
+        valueBox.off('click.value-box');
+        valueBox.on('click.value-box', function(e) {
+          window.FlexDashboardUtils.showLinkedValue(dataHref);
+        });
+      }
+    }
+
+    // check for a valueOutputSpan
+    if (valueOutputSpan.length > 0) {
+      handleValueOutput(valueOutputSpan);
+    }
+
+    // if we have a shinyOutput then bind a listener to handle
+    // new valueOutputSpan values
+    shinyOutput.on('shiny:value',
+      function(event) {
+        var element = $(event.target);
+        setTimeout(function() {
+          var valueOutputSpan = element.find('span.value-output');
+          if (valueOutputSpan.length > 0)
+            handleValueOutput(valueOutputSpan);
+        }, 10);
+      }
+    );
+  }
+});
+</script>
+
+<div id="dashboard-container">
+
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div id="section" class="section level1">
+<h1>2024</h1>
+<div id="row" class="section level2">
+<h2>Row</h2>
+<div id="no.-of-miles-ran" class="section level3">
+<h3>No. of Miles Ran</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-person-running" data-color-accent="primary">156.67</span>
+</div>
+<div id="average-run-pace-all-distances" class="section level3">
+<h3>Average Run Pace (All Distances)</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-gauge-simple" data-color-accent="primary">00:08:58</span>
+</div>
+<div id="no.-of-races-ran" class="section level3">
+<h3>No. of Races Ran</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-medal" data-color-accent="primary">7</span>
+</div>
+<div id="no.-of-race-miles-ran" class="section level3">
+<h3>No. of Race Miles Ran</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-person-running" data-color-accent="primary">51.52</span>
+</div>
+<div id="average-race-pace-all-distances" class="section level3">
+<h3>Average Race Pace (All Distances)</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-gauge-high" data-color-accent="primary">00:08:28</span>
+</div>
+</div>
+<div id="row-1" class="section level2">
+<h2>Row</h2>
+<div id="run-data-excludes-races" class="section level3">
+<h3><strong>2024 Run Data (excludes races)</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-d44620d6036ed23eff96" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-d44620d6036ed23eff96">{"x":{"filter":"none","vertical":false,"fillContainer":true,"data":[["2024-03-14","2024-03-13","2024-03-12","2024-03-10","2024-03-09","2024-03-07","2024-03-06","2024-03-05","2024-03-03","2024-03-01","2024-02-28","2024-02-27","2024-02-08","2024-02-01","2024-01-30","2024-01-24","2024-01-22","2024-01-19","2024-01-11","2024-01-03"],["00:18:21","00:33:14","00:37:08","01:57:52","00:25:40","00:38:57","00:54:49","00:47:28","00:53:35","00:58:32","00:39:35","00:44:20","00:31:24","00:33:06","00:38:36","00:29:25","01:44:41","01:19:16","00:47:51","00:28:24"],[2.14,4.05,4.35,12.3,3.14,4.44,6.11,5.22,5.51,6.41,4.36,5.18,4.01,4.01,4.39,3.06,10.13,8.02,5.19,3.13],["00:08:35","00:08:13","00:08:32","00:09:35","00:08:11","00:08:47","00:08:58","00:09:06","00:09:43","00:09:08","00:09:04","00:08:34","00:07:50","00:08:16","00:08:47","00:09:36","00:10:20","00:09:53","00:09:13","00:09:04"],[20.3,41.5,41.8,21.5,39,50.2,83.7,59.6,37.2,0,39.5,58.6,44.1,39.4,39.7,38.9,12.1,97.7,58.6,36.5]],"container":"<table class=\"display fill-container\">\n  <thead>\n    <tr>\n      <th>Date<\/th>\n      <th>Time<\/th>\n      <th>Distance<\/th>\n      <th>Average Pace<\/th>\n      <th>Elevation Gain<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"bPaginate":false,"columnDefs":[{"className":"dt-right","targets":[2,4]},{"name":"run_date","targets":0},{"name":"run_time","targets":1},{"name":"distance_mile","targets":2},{"name":"avg_pace","targets":3},{"name":"total_elevation_gain","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+</div>
+<div id="official-race-results" class="section level3">
+<h3><strong>2024 Official Race Results</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-144996c8a9ce37966bf4" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-144996c8a9ce37966bf4">{"x":{"filter":"none","vertical":false,"fillContainer":true,"data":[["2024-03-17","2024-03-03","2024-02-11","2024-02-04","2024-01-28","2024-01-06","2024-01-01"],["United Airlines NYC Half","NYRR Washington Heights Salsa, Blues and Shamrocks 5K","Gridiron 4M Presented by The FLAG Art Foundation","Manhattan 10K","NYRR Fred Lebow Half Marathon","Joe Kleinerman 10K","Virtual NYRR Resolution Run 5K"],[13.1,3.1,4,6.2,13.1,6.2,3.1],["W2-C","D","E","F","F","F",null],["01:52:11","00:23:41","00:30:27","00:50:18","02:08:05","00:53:55","00:26:48"],["00:08:34","00:07:38","00:07:37","00:08:06","00:09:47","00:08:41","00:08:38"]],"container":"<table class=\"display fill-container\">\n  <thead>\n    <tr>\n      <th>Date<\/th>\n      <th>Race<\/th>\n      <th>miles<\/th>\n      <th>Corral<\/th>\n      <th>Time<\/th>\n      <th>Average Pace<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"bPaginate":false,"columnDefs":[{"className":"dt-right","targets":2},{"name":"date","targets":0},{"name":"race","targets":1},{"name":"miles","targets":2},{"name":"corral","targets":3},{"name":"official_time","targets":4},{"name":"official_pace","targets":5}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="row-2" class="section level2">
+<h2>Row</h2>
+<div id="weekly-mileage-excludes-races"
+class="section level3 no-padding">
+<h3 class="no-padding"><strong>2024 Weekly Mileage (excludes
+races)</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-2df3491177231f6c962f" style="width:576px;height:460.8px;"></div>
+<script type="application/json" data-for="htmlwidget-2df3491177231f6c962f">{"x":{"data":[{"orientation":"v","width":[6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104],"base":[0,0,0,0,0,0,0,0,0,0,0,0],"x":[19723,19730,19737,19744,19751,19758,19765,19772,19779,19786,19793,19800],"y":[3.1299999999999999,5.1900000000000004,8.0199999999999996,13.190000000000001,8.3999999999999986,4.0099999999999998,0,0,21.460000000000001,31.210000000000001,10.539999999999999,0],"text":["Week beginning 2024-01-01: 3.13 miles logged","Week beginning 2024-01-08: 5.19 miles logged","Week beginning 2024-01-15: 8.02 miles logged","Week beginning 2024-01-22: 13.19 miles logged","Week beginning 2024-01-29: 8.4 miles logged","Week beginning 2024-02-05: 4.01 miles logged","Week beginning 2024-02-12: 0 miles logged","Week beginning 2024-02-19: 0 miles logged","Week beginning 2024-02-26: 21.46 miles logged","Week beginning 2024-03-04: 31.21 miles logged","Week beginning 2024-03-11: 10.54 miles logged","Week beginning 2024-03-18: 0 miles logged"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(174,199,224,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":25.132420091324207,"r":7.3059360730593621,"b":32.204145266949041,"l":37.260273972602747},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[19715.684999999998,19807.315000000002],"tickmode":"array","ticktext":["Jan 24","Feb 24","Mar 24"],"tickvals":[19723,19754,19783],"categoryorder":"array","categoryarray":["Jan 24","Feb 24","Mar 24"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-1.5605000000000002,32.770499999999998],"tickmode":"array","ticktext":["0","2","4","6","8","10","12","14","16","18","20","22","24","26","28","30","32"],"tickvals":[2.2204460492503131e-16,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,31.999999999999996],"categoryorder":"array","categoryarray":["0","2","4","6","8","10","12","14","16","18","20","22","24","26","28","30","32"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"No. of Miles","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48b37f6c14e0":{"x":{},"y":{},"text":{},"type":"bar"}},"cur_data":"48b37f6c14e0","visdat":{"48b37f6c14e0":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="weight-tracking" class="section level3 no-padding">
+<h3 class="no-padding"><strong>2024 Weight Tracking</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-e9e0cd189d279403f9ce" style="width:576px;height:460.8px;"></div>
+<script type="application/json" data-for="htmlwidget-e9e0cd189d279403f9ce">{"x":{"data":[{"x":[1704109149,1704193301,1704274758,1704285294,1704285451,1704358348,1704444736,1704527197,1704537368,1704617628,1704793566,1704877134,1704966856,1705046642,1705225848,1705308205,1705397253,1705485110,1705571973,1705653327,1705692678,1705750466,1705951830,1705996730,1706084910,1706265645,1706265990,1706353261,1706443594,1706526440,1706614397,1706688217,1706780259,1706876639,1706958690,1707034086,1707044257,1707123790,1707213780,1707298001,1707383686,1707477663,1707654378,1707733770,1707827222,1707908973,1708001011,1708081151,1708168372,1708252220,1708937560,1709028730,1709034630,1709114908,1709195959,1709286831,1709300163,1709378203,1709452947,1709469855,1709541791,1709633583,1709640591,1709717556,1709728037,1709801776,1709810680,1709893290,1709981442,1709993600,1710063213,1710075973,1710144042,1710230045,1710240845,1710319733,1710332819,1710400809,1710413626,1710489159,1710578641,1710650233,1710650318,1710671080,1710749093,1710843727,1710921138],"y":[203.19999999999999,205.19999999999999,207.19999999999999,208.59999999999999,205.40000000000001,206.80000000000001,207.19999999999999,207.40000000000001,203.80000000000001,206.40000000000001,208.19999999999999,209.59999999999999,209,207.59999999999999,209.19999999999999,207,207.59999999999999,207.19999999999999,209,209.40000000000001,205.19999999999999,208.40000000000001,207,209.59999999999999,211,212,212,212,206.80000000000001,212.59999999999999,208.80000000000001,211.19999999999999,209,208.80000000000001,209.19999999999999,209,206.80000000000001,209,207.80000000000001,209.19999999999999,209.19999999999999,208.40000000000001,207,208.40000000000001,206.40000000000001,207,206.40000000000001,208.19999999999999,207.80000000000001,207.40000000000001,201.19999999999999,202.40000000000001,199.59999999999999,200,201.19999999999999,202.80000000000001,199.59999999999999,202.19999999999999,201.80000000000001,196.40000000000001,200.40000000000001,201.59999999999999,198.40000000000001,202.59999999999999,199,203.19999999999999,200.59999999999999,202.80000000000001,203.80000000000001,202,205,198.80000000000001,201.59999999999999,200.59999999999999,197.80000000000001,198.80000000000001,196.59999999999999,198.59999999999999,196.59999999999999,198.40000000000001,198.59999999999999,200.80000000000001,200.80000000000001,194.80000000000001,198,195.80000000000001,194.40000000000001],"text":["date_time: 2024-01-01 11:39:09<br />weight_lb: 203.2","date_time: 2024-01-02 11:01:41<br />weight_lb: 205.2","date_time: 2024-01-03 09:39:18<br />weight_lb: 207.2","date_time: 2024-01-03 12:34:54<br />weight_lb: 208.6","date_time: 2024-01-03 12:37:31<br />weight_lb: 205.4","date_time: 2024-01-04 08:52:28<br />weight_lb: 206.8","date_time: 2024-01-05 08:52:16<br />weight_lb: 207.2","date_time: 2024-01-06 07:46:37<br />weight_lb: 207.4","date_time: 2024-01-06 10:36:08<br />weight_lb: 203.8","date_time: 2024-01-07 08:53:48<br />weight_lb: 206.4","date_time: 2024-01-09 09:46:06<br />weight_lb: 208.2","date_time: 2024-01-10 08:58:54<br />weight_lb: 209.6","date_time: 2024-01-11 09:54:16<br />weight_lb: 209.0","date_time: 2024-01-12 08:04:02<br />weight_lb: 207.6","date_time: 2024-01-14 09:50:48<br />weight_lb: 209.2","date_time: 2024-01-15 08:43:25<br />weight_lb: 207.0","date_time: 2024-01-16 09:27:33<br />weight_lb: 207.6","date_time: 2024-01-17 09:51:50<br />weight_lb: 207.2","date_time: 2024-01-18 09:59:33<br />weight_lb: 209.0","date_time: 2024-01-19 08:35:27<br />weight_lb: 209.4","date_time: 2024-01-19 19:31:18<br />weight_lb: 205.2","date_time: 2024-01-20 11:34:26<br />weight_lb: 208.4","date_time: 2024-01-22 19:30:30<br />weight_lb: 207.0","date_time: 2024-01-23 07:58:50<br />weight_lb: 209.6","date_time: 2024-01-24 08:28:30<br />weight_lb: 211.0","date_time: 2024-01-26 10:40:45<br />weight_lb: 212.0","date_time: 2024-01-26 10:46:30<br />weight_lb: 212.0","date_time: 2024-01-27 11:01:01<br />weight_lb: 212.0","date_time: 2024-01-28 12:06:34<br />weight_lb: 206.8","date_time: 2024-01-29 11:07:20<br />weight_lb: 212.6","date_time: 2024-01-30 11:33:17<br />weight_lb: 208.8","date_time: 2024-01-31 08:03:37<br />weight_lb: 211.2","date_time: 2024-02-01 09:37:39<br />weight_lb: 209.0","date_time: 2024-02-02 12:23:59<br />weight_lb: 208.8","date_time: 2024-02-03 11:11:30<br />weight_lb: 209.2","date_time: 2024-02-04 08:08:06<br />weight_lb: 209.0","date_time: 2024-02-04 10:57:37<br />weight_lb: 206.8","date_time: 2024-02-05 09:03:10<br />weight_lb: 209.0","date_time: 2024-02-06 10:03:00<br />weight_lb: 207.8","date_time: 2024-02-07 09:26:41<br />weight_lb: 209.2","date_time: 2024-02-08 09:14:46<br />weight_lb: 209.2","date_time: 2024-02-09 11:21:03<br />weight_lb: 208.4","date_time: 2024-02-11 12:26:18<br />weight_lb: 207.0","date_time: 2024-02-12 10:29:30<br />weight_lb: 208.4","date_time: 2024-02-13 12:27:02<br />weight_lb: 206.4","date_time: 2024-02-14 11:09:33<br />weight_lb: 207.0","date_time: 2024-02-15 12:43:31<br />weight_lb: 206.4","date_time: 2024-02-16 10:59:11<br />weight_lb: 208.2","date_time: 2024-02-17 11:12:52<br />weight_lb: 207.8","date_time: 2024-02-18 10:30:20<br />weight_lb: 207.4","date_time: 2024-02-26 08:52:40<br />weight_lb: 201.2","date_time: 2024-02-27 10:12:10<br />weight_lb: 202.4","date_time: 2024-02-27 11:50:30<br />weight_lb: 199.6","date_time: 2024-02-28 10:08:28<br />weight_lb: 200.0","date_time: 2024-02-29 08:39:19<br />weight_lb: 201.2","date_time: 2024-03-01 09:53:51<br />weight_lb: 202.8","date_time: 2024-03-01 13:36:03<br />weight_lb: 199.6","date_time: 2024-03-02 11:16:43<br />weight_lb: 202.2","date_time: 2024-03-03 08:02:27<br />weight_lb: 201.8","date_time: 2024-03-03 12:44:15<br />weight_lb: 196.4","date_time: 2024-03-04 08:43:11<br />weight_lb: 200.4","date_time: 2024-03-05 10:13:03<br />weight_lb: 201.6","date_time: 2024-03-05 12:09:51<br />weight_lb: 198.4","date_time: 2024-03-06 09:32:36<br />weight_lb: 202.6","date_time: 2024-03-06 12:27:17<br />weight_lb: 199.0","date_time: 2024-03-07 08:56:16<br />weight_lb: 203.2","date_time: 2024-03-07 11:24:40<br />weight_lb: 200.6","date_time: 2024-03-08 10:21:30<br />weight_lb: 202.8","date_time: 2024-03-09 10:50:42<br />weight_lb: 203.8","date_time: 2024-03-09 14:13:20<br />weight_lb: 202.0","date_time: 2024-03-10 09:33:33<br />weight_lb: 205.0","date_time: 2024-03-10 13:06:13<br />weight_lb: 198.8","date_time: 2024-03-11 08:00:42<br />weight_lb: 201.6","date_time: 2024-03-12 07:54:05<br />weight_lb: 200.6","date_time: 2024-03-12 10:54:05<br />weight_lb: 197.8","date_time: 2024-03-13 08:48:53<br />weight_lb: 198.8","date_time: 2024-03-13 12:26:59<br />weight_lb: 196.6","date_time: 2024-03-14 07:20:09<br />weight_lb: 198.6","date_time: 2024-03-14 10:53:46<br />weight_lb: 196.6","date_time: 2024-03-15 07:52:39<br />weight_lb: 198.4","date_time: 2024-03-16 08:44:01<br />weight_lb: 198.6","date_time: 2024-03-17 04:37:13<br />weight_lb: 200.8","date_time: 2024-03-17 04:38:38<br />weight_lb: 200.8","date_time: 2024-03-17 10:24:40<br />weight_lb: 194.8","date_time: 2024-03-18 08:04:53<br />weight_lb: 198.0","date_time: 2024-03-19 10:22:07<br />weight_lb: 195.8","date_time: 2024-03-20 07:52:18<br />weight_lb: 194.4"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(115,157,199,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":25.132420091324207,"r":7.3059360730593621,"b":32.204145266949041,"l":43.105022831050235},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1703768549.55,1711261737.45],"tickmode":"array","ticktext":["Jan 24","Feb 24","Mar 24"],"tickvals":[1704067200,1706745600,1709251200],"categoryorder":"array","categoryarray":["Jan 24","Feb 24","Mar 24"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[193.49000000000001,213.50999999999999],"tickmode":"array","ticktext":["194","196","198","200","202","204","206","208","210","212"],"tickvals":[194,196,198,200,202,204,206,208,210,212],"categoryorder":"array","categoryarray":["194","196","198","200","202","204","206","208","210","212"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"lbs","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48b33d418a22":{"x":{},"y":{},"type":"scatter"}},"cur_data":"48b33d418a22","visdat":{"48b33d418a22":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="section-1" class="section level1">
+<h1>2023</h1>
+<div id="row-3" class="section level2">
+<h2>Row</h2>
+<div id="no.-of-miles-ran-1" class="section level3">
+<h3>No. of Miles Ran</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-person-running" data-color-accent="primary">741</span>
+</div>
+<div id="average-run-pace-all-distances-1" class="section level3">
+<h3>Average Run Pace (All Distances)</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-gauge-simple" data-color-accent="primary">00:09:53</span>
+</div>
+<div id="no.-of-races-ran-1" class="section level3">
+<h3>No. of Races Ran</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-medal" data-color-accent="primary">12</span>
+</div>
+<div id="no.-of-race-miles-ran-1" class="section level3">
+<h3>No. of Race Miles Ran</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-person-running" data-color-accent="primary">101</span>
+</div>
+<div id="average-race-pace-all-distances-1" class="section level3">
+<h3>Average Race Pace (All Distances)</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-gauge-high" data-color-accent="primary">00:09:08</span>
+</div>
+</div>
+<div id="row-4" class="section level2">
+<h2>Row</h2>
+<div id="run-data-excludes-races-1" class="section level3">
+<h3><strong>2023 Run Data (excludes races)</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-b0cc76082d76caafb939" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-b0cc76082d76caafb939">{"x":{"filter":"none","vertical":false,"fillContainer":true,"data":[["2023-12-20","2023-12-12","2023-12-08","2023-12-07","2023-12-04","2023-11-28","2023-11-16","2023-11-15","2023-11-14","2023-11-11","2023-11-09","2023-11-08","2023-11-07","2023-11-05","2023-11-01","2023-10-31","2023-10-28","2023-10-26","2023-10-25","2023-10-24","2023-10-21","2023-10-19","2023-10-18","2023-10-14","2023-10-12","2023-10-11","2023-10-06","2023-10-05","2023-10-03","2023-09-30","2023-09-28","2023-09-27","2023-09-26","2023-09-21","2023-09-20","2023-09-19","2023-09-14","2023-09-13","2023-09-12","2023-09-09","2023-09-02","2023-08-31","2023-08-29","2023-08-26","2023-08-24","2023-08-23","2023-08-22","2023-08-19","2023-08-17","2023-08-15","2023-08-12","2023-08-10","2023-08-08","2023-08-05","2023-08-03","2023-08-02","2023-08-01","2023-07-29","2023-07-27","2023-07-26","2023-07-25","2023-07-23","2023-07-20","2023-07-19","2023-07-18","2023-07-16","2023-07-11","2023-07-08","2023-07-06","2023-07-04","2023-06-03","2023-05-30","2023-05-04","2023-05-02","2023-04-22","2023-04-18","2023-04-15","2023-04-13","2023-04-12","2023-04-11","2023-04-08","2023-04-07","2023-04-05","2023-04-04","2023-03-31","2023-03-29","2023-03-28","2023-03-16","2023-03-15","2023-03-14","2023-03-11","2023-03-08","2023-03-07","2023-03-04","2023-03-02","2023-03-01","2023-02-28","2023-02-26","2023-02-25","2023-02-24","2023-02-23","2023-02-20","2023-02-15","2023-02-14","2023-02-11","2023-02-08","2023-02-07","2023-02-02","2023-01-31","2023-01-28","2023-01-26","2023-01-25","2023-01-24","2023-01-21","2023-01-19","2023-01-18","2023-01-17","2023-01-14","2023-01-12","2023-01-11","2023-01-10","2023-01-05","2023-01-04","2023-01-03"],["00:41:16","00:37:00","00:55:05","00:41:11","00:45:32","00:43:37","00:20:06","00:43:10","00:31:00","01:20:58","00:31:09","01:01:50","00:43:58","01:33:15","01:25:43","00:53:21","04:07:21","00:47:46","01:38:43","00:49:31","02:29:18","00:47:46","01:27:00","03:33:53","00:47:34","01:34:19","00:44:23","01:22:43","00:39:38","03:07:12","00:40:37","01:22:11","00:40:42","00:38:48","01:03:35","00:28:33","00:41:57","01:13:06","00:28:40","00:59:23","02:25:46","01:04:09","00:30:38","01:14:38","00:29:29","00:54:56","00:28:24","01:53:34","00:54:10","00:35:20","01:20:04","00:44:54","00:30:02","01:01:30","00:28:57","00:28:16","00:28:31","01:13:51","00:34:27","00:29:42","00:30:06","01:00:45","00:30:48","00:30:14","00:31:15","00:24:14","00:18:52","00:20:43","00:21:34","00:23:37","00:23:13","00:24:39","00:27:54","00:28:49","01:42:14","00:26:56","01:41:12","00:28:17","00:48:07","00:26:59","01:02:40","00:28:51","00:42:38","00:27:42","00:49:28","01:00:40","00:28:16","00:17:18","00:17:54","00:27:13","02:00:22","00:50:45","00:27:43","01:52:41","00:28:20","00:51:10","00:28:54","00:58:29","00:28:32","00:50:10","00:27:42","01:43:57","00:50:29","00:29:04","01:30:27","00:48:40","00:28:15","00:39:27","00:27:51","01:18:36","00:27:33","00:40:05","00:28:39","01:12:04","00:27:18","00:37:10","00:29:56","00:57:14","00:29:24","00:40:21","00:28:06","00:28:10","00:29:07","00:28:16"],[4.32,4.06,6.06,4.34,5.01,4.64,2.04,4.31,3.04,8.02,3.03,6.11,4.28,9.06,8,5.09,20.01,5.16,10.02,5.11,13.77,5.01,9.01,18.02,5.08,9.08,4.23,8.1,4.39,16.01,4.29,8.01,4.33,4.01,7.02,3.16,4.29,7.02,3.06,5.33,12.01,6.08,3.07,7.07,3.01,5.19,3.12,10.04,5.2,3.07,6,4.37,3.03,6.31,3.08,3.04,3.04,7.01,3.09,2.97,3.07,6.08,3.06,3.01,3.29,2.5,2.01,2.03,2.01,2.01,2.01,2,3.04,3.11,10.04,3.06,9.01,3.04,5.11,3.04,6.07,3.05,4.34,3.04,5.03,6.08,3.06,2.01,2.01,3.06,12.25,5.18,3.04,11.27,3.04,5.18,3.04,6.13,3.06,5.15,3.07,10.04,5.17,3.04,9.029999999999999,5.14,3.16,4.31,3.06,8.01,3.06,4.33,3.04,7.33,3.04,4.01,3.06,6.08,3.16,4.31,3.07,3.02,3.01,3.1],["00:09:33","00:09:06","00:09:05","00:09:29","00:09:05","00:09:25","00:09:50","00:10:01","00:10:11","00:10:06","00:10:18","00:10:07","00:10:16","00:10:18","00:10:43","00:10:29","00:12:22","00:09:15","00:09:51","00:09:41","00:10:51","00:09:32","00:09:39","00:11:52","00:09:22","00:10:23","00:10:30","00:10:13","00:09:02","00:11:42","00:09:28","00:10:16","00:09:24","00:09:40","00:09:04","00:09:02","00:09:46","00:10:25","00:09:21","00:11:09","00:12:08","00:10:33","00:09:59","00:10:33","00:09:48","00:10:34","00:09:06","00:11:19","00:10:25","00:11:31","00:13:20","00:10:17","00:09:54","00:09:44","00:09:24","00:09:17","00:09:23","00:10:32","00:11:08","00:10:00","00:09:48","00:09:59","00:10:04","00:10:03","00:09:29","00:09:41","00:09:24","00:10:14","00:10:43","00:11:44","00:11:32","00:12:19","00:09:10","00:09:17","00:10:11","00:08:49","00:11:14","00:09:18","00:09:25","00:08:52","00:10:19","00:09:27","00:09:50","00:09:06","00:09:50","00:09:58","00:09:15","00:08:37","00:08:55","00:08:54","00:09:49","00:09:48","00:09:06","00:10:00","00:09:19","00:09:52","00:09:30","00:09:33","00:09:20","00:09:44","00:09:01","00:10:22","00:09:46","00:09:34","00:10:01","00:09:28","00:08:56","00:09:09","00:09:05","00:09:49","00:09:01","00:09:15","00:09:25","00:09:50","00:08:59","00:09:16","00:09:46","00:09:25","00:09:18","00:09:21","00:09:09","00:09:20","00:09:41","00:09:07"],[47.1,39.8,82.2,43.5,21,54.3,19.7,35.4,38.1,95.90000000000001,41.5,82.90000000000001,40.7,9.6,96.2,59.3,95.2,57.8,113.7,58.8,156,42.8,117,243.1,57.7,119.1,36.4,2.7,39.5,92.3,35.8,96.2,36.7,7.6,89.59999999999999,32.8,37.8,65.09999999999999,37.6,57.8,167.9,82.59999999999999,38.6,93.5,39.9,59.3,14.4,5.2,57.9,38.4,17.3,37.9,37.7,79.90000000000001,37.7,37.8,37.7,37,35.4,37.7,39.8,82.09999999999999,37.9,38.1,7.1,31.7,15,14.8,18.6,0,13.7,13.2,37.8,14.7,116,38.3,21,38.2,2.6,37.9,82.7,38,36,37.9,5.8,82.40000000000001,38.1,15.9,13.8,38.9,164.7,57.9,37.5,140.8,38.1,58.8,40,82.5,38.2,58.2,38.7,19.5,57.4,38.1,3.4,67.2,39.2,35.9,38.2,121,38.9,36.1,37.5,103.6,39.4,2.2,38.2,84.5,26.4,35.7,38.8,38.6,40.9,40.1]],"container":"<table class=\"display fill-container\">\n  <thead>\n    <tr>\n      <th>Date<\/th>\n      <th>Time<\/th>\n      <th>Distance<\/th>\n      <th>Average Pace<\/th>\n      <th>Elevation Gain<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"bPaginate":false,"columnDefs":[{"className":"dt-right","targets":[2,4]},{"name":"run_date","targets":0},{"name":"run_time","targets":1},{"name":"distance_mile","targets":2},{"name":"avg_pace","targets":3},{"name":"total_elevation_gain","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="official-race-results-1" class="section level3">
+<h3><strong>2023 Official Race Results</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-74604006debec7ecab53" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-74604006debec7ecab53">{"x":{"filter":"none","vertical":false,"fillContainer":true,"data":[["2023-12-02","2023-11-19","2023-11-04","2023-10-08","2023-09-17","2023-09-12","2023-08-12","2023-04-02","2023-03-19","2023-02-12","2023-02-05","2023-01-07","2023-01-01"],["NYRR Ted Corbitt 15K","AACR Philadelphia Marathon","Abbot Dash to the Finish Line 5K","NYRR Staten Island Half","New Balance Bronx 10M","New Balance Fifth Avenue Mile","Percy Sutton Harlem 5K","Run as One 4M Presented by JPMorgan Chase","United Airlines NYC Half","Gridiron 4M Presented by The FLAG Art Foundation","Manhattan 10K","Joe Kleinerman 10K","Virtual NYRR Resolution Run 5K"],[9.300000000000001,26.2,3.1,13.1,10,1,3.1,4,13.1,4,6.2,6.2,3.1],["F","Green","G","G","G","D-AgeGrp","G","G","W3-E","H","H","J",null],["01:25:24","04:39:19","00:26:11","02:10:32","01:34:01","00:07:19","00:29:04","00:36:15","02:05:38","00:36:43","00:57:14","00:59:29","00:29:27"],["00:09:10","00:10:39","00:08:26","00:09:58","00:09:25","00:07:19","00:09:22","00:09:04","00:09:35","00:09:11","00:09:13","00:09:35","00:09:29"]],"container":"<table class=\"display fill-container\">\n  <thead>\n    <tr>\n      <th>Date<\/th>\n      <th>Race<\/th>\n      <th>miles<\/th>\n      <th>Corral<\/th>\n      <th>Time<\/th>\n      <th>Average Pace<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"bPaginate":false,"columnDefs":[{"className":"dt-right","targets":2},{"name":"date","targets":0},{"name":"race","targets":1},{"name":"miles","targets":2},{"name":"corral","targets":3},{"name":"official_time","targets":4},{"name":"official_pace","targets":5}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="row-5" class="section level2">
+<h2>Row</h2>
+<div id="weekly-mileage-excludes-races-1"
+class="section level3 no-padding">
+<h3 class="no-padding"><strong>2023 Weekly Mileage (excludes
+races)</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-b0ba224c62f4ee02f205" style="width:576px;height:460.8px;"></div>
+<script type="application/json" data-for="htmlwidget-b0ba224c62f4ee02f205">{"x":{"data":[{"orientation":"v","width":[6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[19359,19366,19373,19380,19387,19394,19401,19408,19415,19422,19429,19436,19443,19450,19457,19464,19471,19478,19485,19492,19499,19506,19513,19520,19527,19534,19541,19548,19555,19562,19569,19576,19583,19590,19597,19604,19611,19618,19625,19632,19639,19646,19653,19660,19667,19674,19681,19688,19695,19702,19709,19716],"y":[9.129999999999999,16.620000000000001,17.440000000000001,18.440000000000001,7.3699999999999992,17.329999999999998,8.2100000000000009,27.449999999999999,22.530000000000001,20.469999999999999,7.0800000000000001,0,14.17,16.5,20.199999999999999,13.1,0,6.1500000000000004,0,0,0,4.0099999999999998,0,0,0,0,6.0499999999999989,4.5099999999999998,15.44,16.140000000000001,15.469999999999999,13.4,18.309999999999999,18.390000000000001,21.16,5.3300000000000001,14.369999999999999,14.19,32.640000000000001,16.719999999999999,32.18,27.789999999999999,40.300000000000004,22.149999999999999,21.440000000000001,9.3900000000000006,0,4.6399999999999997,15.41,4.0599999999999996,4.3200000000000003,0],"text":["Week beginning 2023-01-02: 9.13 miles logged","Week beginning 2023-01-09: 16.62 miles logged","Week beginning 2023-01-16: 17.44 miles logged","Week beginning 2023-01-23: 18.44 miles logged","Week beginning 2023-01-30: 7.37 miles logged","Week beginning 2023-02-06: 17.33 miles logged","Week beginning 2023-02-13: 8.21 miles logged","Week beginning 2023-02-20: 27.45 miles logged","Week beginning 2023-02-27: 22.53 miles logged","Week beginning 2023-03-06: 20.47 miles logged","Week beginning 2023-03-13: 7.08 miles logged","Week beginning 2023-03-20: 0 miles logged","Week beginning 2023-03-27: 14.17 miles logged","Week beginning 2023-04-03: 16.5 miles logged","Week beginning 2023-04-10: 20.2 miles logged","Week beginning 2023-04-17: 13.1 miles logged","Week beginning 2023-04-24: 0 miles logged","Week beginning 2023-05-01: 6.15 miles logged","Week beginning 2023-05-08: 0 miles logged","Week beginning 2023-05-15: 0 miles logged","Week beginning 2023-05-22: 0 miles logged","Week beginning 2023-05-29: 4.01 miles logged","Week beginning 2023-06-05: 0 miles logged","Week beginning 2023-06-12: 0 miles logged","Week beginning 2023-06-19: 0 miles logged","Week beginning 2023-06-26: 0 miles logged","Week beginning 2023-07-03: 6.05 miles logged","Week beginning 2023-07-10: 4.51 miles logged","Week beginning 2023-07-17: 15.44 miles logged","Week beginning 2023-07-24: 16.14 miles logged","Week beginning 2023-07-31: 15.47 miles logged","Week beginning 2023-08-07: 13.4 miles logged","Week beginning 2023-08-14: 18.31 miles logged","Week beginning 2023-08-21: 18.39 miles logged","Week beginning 2023-08-28: 21.16 miles logged","Week beginning 2023-09-04: 5.33 miles logged","Week beginning 2023-09-11: 14.37 miles logged","Week beginning 2023-09-18: 14.19 miles logged","Week beginning 2023-09-25: 32.64 miles logged","Week beginning 2023-10-02: 16.72 miles logged","Week beginning 2023-10-09: 32.18 miles logged","Week beginning 2023-10-16: 27.79 miles logged","Week beginning 2023-10-23: 40.3 miles logged","Week beginning 2023-10-30: 22.15 miles logged","Week beginning 2023-11-06: 21.44 miles logged","Week beginning 2023-11-13: 9.39 miles logged","Week beginning 2023-11-20: 0 miles logged","Week beginning 2023-11-27: 4.64 miles logged","Week beginning 2023-12-04: 15.41 miles logged","Week beginning 2023-12-11: 4.06 miles logged","Week beginning 2023-12-18: 4.32 miles logged","Week beginning 2023-12-25: 0 miles logged"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(174,199,224,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":25.132420091324207,"r":7.3059360730593621,"b":32.204145266949041,"l":37.260273972602747},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[19337.684999999998,19737.315000000002],"tickmode":"array","ticktext":["Jan 23","Feb 23","Mar 23","Apr 23","May 23","Jun 23","Jul 23","Aug 23","Sep 23","Oct 23","Nov 23","Dec 23","Jan 24"],"tickvals":[19358,19389,19417,19448,19478,19509,19539,19570,19601,19631,19662,19692,19723],"categoryorder":"array","categoryarray":["Jan 23","Feb 23","Mar 23","Apr 23","May 23","Jun 23","Jul 23","Aug 23","Sep 23","Oct 23","Nov 23","Dec 23","Jan 24"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.0150000000000001,42.315000000000005],"tickmode":"array","ticktext":["0","2","4","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","42"],"tickvals":[0,2.0000000000000004,4,6,8,10,12.000000000000002,14,16,18,20,22,24,25.999999999999996,28,30,32,34,36,38,40,42],"categoryorder":"array","categoryarray":["0","2","4","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","42"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"No. of Miles","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48b34276d5e7":{"x":{},"y":{},"text":{},"type":"bar"}},"cur_data":"48b34276d5e7","visdat":{"48b34276d5e7":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="weight-tracking-1" class="section level3 no-padding">
+<h3 class="no-padding"><strong>2023 Weight Tracking</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-6551b0d5a509cbf506b7" style="width:576px;height:460.8px;"></div>
+<script type="application/json" data-for="htmlwidget-6551b0d5a509cbf506b7">{"x":{"data":[{"x":[1672579676,1672737957,1672827014,1672912784,1673092718,1673172439,1673256051,1673343671,1673429830,1673514622,1673608932,1673694755,1673781445,1673864965,1673947015,1674034890,1674120459,1674205443,1674300390,1674388667,1674465815,1674552525,1674641357,1674726594,1674815001,1674912598,1674991478,1675159104,1675159174,1675248555,1675331354,1675417951,1675503411,1675595370,1675674283,1675763158,1675856511,1675935192,1676017378,1676117901,1676203856,1676287473,1676368844,1676458166,1676588401,1676918740,1677062942,1677149510,1677240168,1677356474,1677439396,1677586758,1677703515,1677787568,1677841520,1677942447,1678104993,1678185043,1678278715,1678565267,1678823373,1678908780,1678978299,1679138705,1679226134,1679226363,1679320624,1679474920,1679741900,1679992302,1680434861,1680862842,1680949922,1681206307,1681295511,1681382798,1681468843,1681569774,1681640500,1681722021,1681814875,1681888871,1682088532,1682160395,1682172992,1682420395,1682591310,1682855294,1683020973,1683196033,1683282213,1683523887,1684140959,1684481886,1685093831,1685527456,1688459880,1688632748,1688836811,1689056419,1689161521,1689238549,1689409233,1689583477,1689671056,1689761646,1689845193,1690274066,1690450569,1691061434,1691482680,1691922727,1692457329,1692955831,1693670752,1694338850,1694509858,1694688286,1695029643,1695117313,1695207247,1695728610,1695814275,1695901482,1696093753,1696239332,1696324321,1696417650,1696771381,1696931133,1697018659,1697101164,1697101259,1697292476,1697364869,1697532544,1697634417,1698141166,1698253737,1698309169,1698505289,1698745438,1699093017,1699189289,1699261501,1699352213,1699448604,1699524836,1699615781,1699716148,1699788913,1699877156,1699955876,1700047410,1700129255,1700483055,1700554567,1701159179,1701336704,1701431422,1701518519,1701595624,1701704284,1701951535,1702038835,1702059847,1702129630,1702296877,1702368495,1702459601,1702548744,1702640850,1702722293,1702809269,1702904104,1702989736,1703065606,1703159381,1704032992],"y":[219.40000000000001,222.19999999999999,219.19999999999999,220.40000000000001,220.40000000000001,221,223.19999999999999,221.40000000000001,220.59999999999999,221.80000000000001,224,217.40000000000001,219.19999999999999,219.59999999999999,220.40000000000001,219.59999999999999,217,219.80000000000001,215.59999999999999,216.80000000000001,218.19999999999999,216.80000000000001,216.19999999999999,216.40000000000001,218.40000000000001,214.59999999999999,216.40000000000001,219.19999999999999,219.19999999999999,217.80000000000001,217.59999999999999,220.40000000000001,220.19999999999999,217.19999999999999,219.59999999999999,217.59999999999999,214,217.19999999999999,218.59999999999999,214.80000000000001,217,221,220.19999999999999,218.19999999999999,221,215.59999999999999,213,214.19999999999999,213,218,216.80000000000001,217.40000000000001,218.19999999999999,216,217.40000000000001,215.40000000000001,216,216.80000000000001,216.80000000000001,212.80000000000001,215,215.19999999999999,213,217.40000000000001,215.59999999999999,212.40000000000001,217.19999999999999,215.40000000000001,217.19999999999999,215,215.40000000000001,217,217.40000000000001,214.59999999999999,213.59999999999999,213.19999999999999,214.19999999999999,212.59999999999999,217,217,215.40000000000001,214.59999999999999,216.40000000000001,218.19999999999999,212.80000000000001,218.19999999999999,215.80000000000001,219,216.19999999999999,219,219.19999999999999,219.19999999999999,217.80000000000001,219,218.40000000000001,219.59999999999999,224,222.19999999999999,220.59999999999999,226.19999999999999,222.59999999999999,224.40000000000001,222.80000000000001,221,219.59999999999999,219.40000000000001,223.40000000000001,219.40000000000001,217.40000000000001,221.80000000000001,224.19999999999999,219.59999999999999,216.40000000000001,221.80000000000001,214.19999999999999,216.40000000000001,217.19999999999999,215,221,220,215.40000000000001,215,211.80000000000001,211.59999999999999,209.19999999999999,213.80000000000001,217.59999999999999,215.59999999999999,211.19999999999999,214.59999999999999,211.19999999999999,213.80000000000001,210.80000000000001,209.40000000000001,213.40000000000001,216,209.80000000000001,213.59999999999999,209.80000000000001,211.59999999999999,207,213.59999999999999,209.59999999999999,207.59999999999999,209.19999999999999,206.19999999999999,206.40000000000001,206.59999999999999,211.80000000000001,206.40000000000001,210.59999999999999,211.80000000000001,211.19999999999999,209.19999999999999,207.80000000000001,210.40000000000001,211.40000000000001,211,208.80000000000001,209,204.80000000000001,209.40000000000001,210.80000000000001,207.59999999999999,210.59999999999999,208.80000000000001,207.40000000000001,211.19999999999999,210,206.40000000000001,207.59999999999999,206.59999999999999,207.40000000000001,209,207.19999999999999,207.80000000000001,207.80000000000001,208.19999999999999,205.59999999999999],"text":["date_time: 2023-01-01 13:27:56<br />weight_lb: 219.4","date_time: 2023-01-03 09:25:57<br />weight_lb: 222.2","date_time: 2023-01-04 10:10:14<br />weight_lb: 219.2","date_time: 2023-01-05 09:59:44<br />weight_lb: 220.4","date_time: 2023-01-07 11:58:38<br />weight_lb: 220.4","date_time: 2023-01-08 10:07:19<br />weight_lb: 221.0","date_time: 2023-01-09 09:20:51<br />weight_lb: 223.2","date_time: 2023-01-10 09:41:11<br />weight_lb: 221.4","date_time: 2023-01-11 09:37:10<br />weight_lb: 220.6","date_time: 2023-01-12 09:10:22<br />weight_lb: 221.8","date_time: 2023-01-13 11:22:12<br />weight_lb: 224.0","date_time: 2023-01-14 11:12:35<br />weight_lb: 217.4","date_time: 2023-01-15 11:17:25<br />weight_lb: 219.2","date_time: 2023-01-16 10:29:25<br />weight_lb: 219.6","date_time: 2023-01-17 09:16:55<br />weight_lb: 220.4","date_time: 2023-01-18 09:41:30<br />weight_lb: 219.6","date_time: 2023-01-19 09:27:39<br />weight_lb: 217.0","date_time: 2023-01-20 09:04:03<br />weight_lb: 219.8","date_time: 2023-01-21 11:26:30<br />weight_lb: 215.6","date_time: 2023-01-22 11:57:47<br />weight_lb: 216.8","date_time: 2023-01-23 09:23:35<br />weight_lb: 218.2","date_time: 2023-01-24 09:28:45<br />weight_lb: 216.8","date_time: 2023-01-25 10:09:17<br />weight_lb: 216.2","date_time: 2023-01-26 09:49:54<br />weight_lb: 216.4","date_time: 2023-01-27 10:23:21<br />weight_lb: 218.4","date_time: 2023-01-28 13:29:58<br />weight_lb: 214.6","date_time: 2023-01-29 11:24:38<br />weight_lb: 216.4","date_time: 2023-01-31 09:58:24<br />weight_lb: 219.2","date_time: 2023-01-31 09:59:34<br />weight_lb: 219.2","date_time: 2023-02-01 10:49:15<br />weight_lb: 217.8","date_time: 2023-02-02 09:49:14<br />weight_lb: 217.6","date_time: 2023-02-03 09:52:31<br />weight_lb: 220.4","date_time: 2023-02-04 09:36:51<br />weight_lb: 220.2","date_time: 2023-02-05 11:09:30<br />weight_lb: 217.2","date_time: 2023-02-06 09:04:43<br />weight_lb: 219.6","date_time: 2023-02-07 09:45:58<br />weight_lb: 217.6","date_time: 2023-02-08 11:41:51<br />weight_lb: 214.0","date_time: 2023-02-09 09:33:12<br />weight_lb: 217.2","date_time: 2023-02-10 08:22:58<br />weight_lb: 218.6","date_time: 2023-02-11 12:18:21<br />weight_lb: 214.8","date_time: 2023-02-12 12:10:56<br />weight_lb: 217.0","date_time: 2023-02-13 11:24:33<br />weight_lb: 221.0","date_time: 2023-02-14 10:00:44<br />weight_lb: 220.2","date_time: 2023-02-15 10:49:26<br />weight_lb: 218.2","date_time: 2023-02-16 23:00:01<br />weight_lb: 221.0","date_time: 2023-02-20 18:45:40<br />weight_lb: 215.6","date_time: 2023-02-22 10:49:02<br />weight_lb: 213.0","date_time: 2023-02-23 10:51:50<br />weight_lb: 214.2","date_time: 2023-02-24 12:02:48<br />weight_lb: 213.0","date_time: 2023-02-25 20:21:14<br />weight_lb: 218.0","date_time: 2023-02-26 19:23:16<br />weight_lb: 216.8","date_time: 2023-02-28 12:19:18<br />weight_lb: 217.4","date_time: 2023-03-01 20:45:15<br />weight_lb: 218.2","date_time: 2023-03-02 20:06:08<br />weight_lb: 216.0","date_time: 2023-03-03 11:05:20<br />weight_lb: 217.4","date_time: 2023-03-04 15:07:27<br />weight_lb: 215.4","date_time: 2023-03-06 12:16:33<br />weight_lb: 216.0","date_time: 2023-03-07 10:30:43<br />weight_lb: 216.8","date_time: 2023-03-08 12:31:55<br />weight_lb: 216.8","date_time: 2023-03-11 20:07:47<br />weight_lb: 212.8","date_time: 2023-03-14 19:49:33<br />weight_lb: 215.0","date_time: 2023-03-15 19:33:00<br />weight_lb: 215.2","date_time: 2023-03-16 14:51:39<br />weight_lb: 213.0","date_time: 2023-03-18 11:25:05<br />weight_lb: 217.4","date_time: 2023-03-19 11:42:14<br />weight_lb: 215.6","date_time: 2023-03-19 11:46:03<br />weight_lb: 212.4","date_time: 2023-03-20 13:57:04<br />weight_lb: 217.2","date_time: 2023-03-22 08:48:40<br />weight_lb: 215.4","date_time: 2023-03-25 10:58:20<br />weight_lb: 217.2","date_time: 2023-03-28 08:31:42<br />weight_lb: 215.0","date_time: 2023-04-02 11:27:41<br />weight_lb: 215.4","date_time: 2023-04-07 10:20:42<br />weight_lb: 217.0","date_time: 2023-04-08 10:32:02<br />weight_lb: 217.4","date_time: 2023-04-11 09:45:07<br />weight_lb: 214.6","date_time: 2023-04-12 10:31:51<br />weight_lb: 213.6","date_time: 2023-04-13 10:46:38<br />weight_lb: 213.2","date_time: 2023-04-14 10:40:43<br />weight_lb: 214.2","date_time: 2023-04-15 14:42:54<br />weight_lb: 212.6","date_time: 2023-04-16 10:21:40<br />weight_lb: 217.0","date_time: 2023-04-17 09:00:21<br />weight_lb: 217.0","date_time: 2023-04-18 10:47:55<br />weight_lb: 215.4","date_time: 2023-04-19 07:21:11<br />weight_lb: 214.6","date_time: 2023-04-21 14:48:52<br />weight_lb: 216.4","date_time: 2023-04-22 10:46:35<br />weight_lb: 218.2","date_time: 2023-04-22 14:16:32<br />weight_lb: 212.8","date_time: 2023-04-25 10:59:55<br />weight_lb: 218.2","date_time: 2023-04-27 10:28:30<br />weight_lb: 215.8","date_time: 2023-04-30 11:48:14<br />weight_lb: 219.0","date_time: 2023-05-02 09:49:33<br />weight_lb: 216.2","date_time: 2023-05-04 10:27:13<br />weight_lb: 219.0","date_time: 2023-05-05 10:23:33<br />weight_lb: 219.2","date_time: 2023-05-08 05:31:27<br />weight_lb: 219.2","date_time: 2023-05-15 08:55:59<br />weight_lb: 217.8","date_time: 2023-05-19 07:38:06<br />weight_lb: 219.0","date_time: 2023-05-26 09:37:11<br />weight_lb: 218.4","date_time: 2023-05-31 10:04:16<br />weight_lb: 219.6","date_time: 2023-07-04 08:38:00<br />weight_lb: 224.0","date_time: 2023-07-06 08:39:08<br />weight_lb: 222.2","date_time: 2023-07-08 17:20:11<br />weight_lb: 220.6","date_time: 2023-07-11 06:20:19<br />weight_lb: 226.2","date_time: 2023-07-12 11:32:01<br />weight_lb: 222.6","date_time: 2023-07-13 08:55:49<br />weight_lb: 224.4","date_time: 2023-07-15 08:20:33<br />weight_lb: 222.8","date_time: 2023-07-17 08:44:37<br />weight_lb: 221.0","date_time: 2023-07-18 09:04:16<br />weight_lb: 219.6","date_time: 2023-07-19 10:14:06<br />weight_lb: 219.4","date_time: 2023-07-20 09:26:33<br />weight_lb: 223.4","date_time: 2023-07-25 08:34:26<br />weight_lb: 219.4","date_time: 2023-07-27 09:36:09<br />weight_lb: 217.4","date_time: 2023-08-03 11:17:14<br />weight_lb: 221.8","date_time: 2023-08-08 08:18:00<br />weight_lb: 224.2","date_time: 2023-08-13 10:32:07<br />weight_lb: 219.6","date_time: 2023-08-19 15:02:09<br />weight_lb: 216.4","date_time: 2023-08-25 09:30:31<br />weight_lb: 221.8","date_time: 2023-09-02 16:05:52<br />weight_lb: 214.2","date_time: 2023-09-10 09:40:50<br />weight_lb: 216.4","date_time: 2023-09-12 09:10:58<br />weight_lb: 217.2","date_time: 2023-09-14 10:44:46<br />weight_lb: 215.0","date_time: 2023-09-18 09:34:03<br />weight_lb: 221.0","date_time: 2023-09-19 09:55:13<br />weight_lb: 220.0","date_time: 2023-09-20 10:54:07<br />weight_lb: 215.4","date_time: 2023-09-26 11:43:30<br />weight_lb: 215.0","date_time: 2023-09-27 11:31:15<br />weight_lb: 211.8","date_time: 2023-09-28 11:44:42<br />weight_lb: 211.6","date_time: 2023-09-30 17:09:13<br />weight_lb: 209.2","date_time: 2023-10-02 09:35:32<br />weight_lb: 213.8","date_time: 2023-10-03 09:12:01<br />weight_lb: 217.6","date_time: 2023-10-04 11:07:30<br />weight_lb: 215.6","date_time: 2023-10-08 13:23:01<br />weight_lb: 211.2","date_time: 2023-10-10 09:45:33<br />weight_lb: 214.6","date_time: 2023-10-11 10:04:19<br />weight_lb: 211.2","date_time: 2023-10-12 08:59:24<br />weight_lb: 213.8","date_time: 2023-10-12 09:00:59<br />weight_lb: 210.8","date_time: 2023-10-14 14:07:56<br />weight_lb: 209.4","date_time: 2023-10-15 10:14:29<br />weight_lb: 213.4","date_time: 2023-10-17 08:49:04<br />weight_lb: 216.0","date_time: 2023-10-18 13:06:57<br />weight_lb: 209.8","date_time: 2023-10-24 09:52:46<br />weight_lb: 213.6","date_time: 2023-10-25 17:08:57<br />weight_lb: 209.8","date_time: 2023-10-26 08:32:49<br />weight_lb: 211.6","date_time: 2023-10-28 15:01:29<br />weight_lb: 207.0","date_time: 2023-10-31 09:43:58<br />weight_lb: 213.6","date_time: 2023-11-04 10:16:57<br />weight_lb: 209.6","date_time: 2023-11-05 13:01:29<br />weight_lb: 207.6","date_time: 2023-11-06 09:05:01<br />weight_lb: 209.2","date_time: 2023-11-07 10:16:53<br />weight_lb: 206.2","date_time: 2023-11-08 13:03:24<br />weight_lb: 206.4","date_time: 2023-11-09 10:13:56<br />weight_lb: 206.6","date_time: 2023-11-10 11:29:41<br />weight_lb: 211.8","date_time: 2023-11-11 15:22:28<br />weight_lb: 206.4","date_time: 2023-11-12 11:35:13<br />weight_lb: 210.6","date_time: 2023-11-13 12:05:56<br />weight_lb: 211.8","date_time: 2023-11-14 09:57:56<br />weight_lb: 211.2","date_time: 2023-11-15 11:23:30<br />weight_lb: 209.2","date_time: 2023-11-16 10:07:35<br />weight_lb: 207.8","date_time: 2023-11-20 12:24:15<br />weight_lb: 210.4","date_time: 2023-11-21 08:16:07<br />weight_lb: 211.4","date_time: 2023-11-28 08:12:59<br />weight_lb: 211.0","date_time: 2023-11-30 09:31:44<br />weight_lb: 208.8","date_time: 2023-12-01 11:50:22<br />weight_lb: 209.0","date_time: 2023-12-02 12:01:59<br />weight_lb: 204.8","date_time: 2023-12-03 09:27:04<br />weight_lb: 209.4","date_time: 2023-12-04 15:38:04<br />weight_lb: 210.8","date_time: 2023-12-07 12:18:55<br />weight_lb: 207.6","date_time: 2023-12-08 12:33:55<br />weight_lb: 210.6","date_time: 2023-12-08 18:24:07<br />weight_lb: 208.8","date_time: 2023-12-09 13:47:10<br />weight_lb: 207.4","date_time: 2023-12-11 12:14:37<br />weight_lb: 211.2","date_time: 2023-12-12 08:08:15<br />weight_lb: 210.0","date_time: 2023-12-13 09:26:41<br />weight_lb: 206.4","date_time: 2023-12-14 10:12:24<br />weight_lb: 207.6","date_time: 2023-12-15 11:47:30<br />weight_lb: 206.6","date_time: 2023-12-16 10:24:53<br />weight_lb: 207.4","date_time: 2023-12-17 10:34:29<br />weight_lb: 209.0","date_time: 2023-12-18 12:55:04<br />weight_lb: 207.2","date_time: 2023-12-19 12:42:16<br />weight_lb: 207.8","date_time: 2023-12-20 09:46:46<br />weight_lb: 207.8","date_time: 2023-12-21 11:49:41<br />weight_lb: 208.2","date_time: 2023-12-31 14:29:52<br />weight_lb: 205.6"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(115,157,199,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":25.132420091324207,"r":7.3059360730593621,"b":32.204145266949041,"l":43.105022831050235},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1671007010.2,1705605657.8],"tickmode":"array","ticktext":["Jan 23","Feb 23","Mar 23","Apr 23","May 23","Jun 23","Jul 23","Aug 23","Sep 23","Oct 23","Nov 23","Dec 23","Jan 24"],"tickvals":[1672531200,1675209600,1677628800,1680307200,1682899200,1685577600,1688169600,1690848000,1693526400,1696118400,1698796800,1701388800,1704067200],"categoryorder":"array","categoryarray":["Jan 23","Feb 23","Mar 23","Apr 23","May 23","Jun 23","Jul 23","Aug 23","Sep 23","Oct 23","Nov 23","Dec 23","Jan 24"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[203.73000000000002,227.26999999999998],"tickmode":"array","ticktext":["204","206","208","210","212","214","216","218","220","222","224","226"],"tickvals":[204,206,208,210,212,214,216,218,220,222,224,226],"categoryorder":"array","categoryarray":["204","206","208","210","212","214","216","218","220","222","224","226"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"lbs","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48b377f42dac":{"x":{},"y":{},"type":"scatter"}},"cur_data":"48b377f42dac","visdat":{"48b377f42dac":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="section-2" class="section level1">
+<h1>2022</h1>
+<div id="row-6" class="section level2">
+<h2>Row</h2>
+<div id="no.-of-miles-ran-2" class="section level3">
+<h3>No. of Miles Ran</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-person-running" data-color-accent="primary">85.6</span>
+</div>
+<div id="average-run-pace-all-distances-2" class="section level3">
+<h3>Average Run Pace (All Distances)</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-gauge-simple" data-color-accent="primary">00:09:42</span>
+</div>
+<div id="no.-of-races-ran-2" class="section level3">
+<h3>No. of Races Ran</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-medal" data-color-accent="primary">3</span>
+</div>
+<div id="no.-of-race-miles-ran-2" class="section level3">
+<h3>No. of Race Miles Ran</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-person-running" data-color-accent="primary">11.1</span>
+</div>
+<div id="average-race-pace-all-distances-2" class="section level3">
+<h3>Average Race Pace (All Distances)</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<span class="value-output" data-icon="fa-gauge-high" data-color-accent="primary">00:09:51</span>
+</div>
+</div>
+<div id="row-7" class="section level2">
+<h2>Row</h2>
+<div id="run-data-excludes-races-2" class="section level3">
+<h3><strong>2022 Run Data (excludes races)</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-9b4d8795198cbbfba38f" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-9b4d8795198cbbfba38f">{"x":{"filter":"none","vertical":false,"fillContainer":true,"data":[["2022-12-29","2022-12-28","2022-12-27","2022-12-17","2022-12-15","2022-12-10","2022-12-05","2022-12-04","2022-12-02","2022-11-27","2022-11-22","2022-11-18","2022-11-16","2022-11-12","2022-11-01","2022-10-26","2022-10-10","2022-10-02","2022-09-30","2022-09-28","2022-09-26","2022-09-21","2022-09-19","2022-09-18","2022-09-11","2022-06-29","2022-06-23"],["00:28:13","00:28:24","00:29:19","00:28:37","00:22:47","01:08:47","00:20:14","00:28:31","00:15:11","00:15:54","00:51:06","00:39:55","00:34:23","00:16:41","00:16:38","00:16:27","00:17:26","00:33:53","00:16:22","00:16:12","00:16:39","00:17:13","00:17:33","00:44:02","00:32:31","00:21:31","00:36:59"],[3.04,3.07,3.01,3.01,2.47,6.54,2.12,3.1,1.81,1.8,5.26,4.05,3.42,1.75,1.84,1.79,1.86,3.57,1.78,1.88,1.83,1.81,1.8,4.13,3.1,2.19,2.47],["00:09:16","00:09:15","00:09:44","00:09:31","00:09:14","00:10:31","00:09:33","00:09:12","00:08:22","00:08:51","00:09:43","00:09:52","00:10:04","00:09:31","00:09:03","00:09:12","00:09:23","00:09:29","00:09:11","00:08:36","00:09:07","00:09:31","00:09:46","00:10:39","00:10:29","00:09:49","00:15:00"],[35.9,38.9,41,38.4,32.2,86.09999999999999,22.3,0,19.1,18.9,64.3,49.9,29.8,17.5,18.6,19,17,38,19.1,18.7,19,19,16.7,14.2,13.4,0,11.1]],"container":"<table class=\"display fill-container\">\n  <thead>\n    <tr>\n      <th>Date<\/th>\n      <th>Time<\/th>\n      <th>Distance<\/th>\n      <th>Average Pace<\/th>\n      <th>Elevation Gain<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"bPaginate":false,"columnDefs":[{"className":"dt-right","targets":[2,4]},{"name":"run_date","targets":0},{"name":"run_time","targets":1},{"name":"distance_mile","targets":2},{"name":"avg_pace","targets":3},{"name":"total_elevation_gain","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="official-race-results-2" class="section level3">
+<h3><strong>2022 Official Race Results</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-d25b02fbff7bdf356725" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-d25b02fbff7bdf356725">{"x":{"filter":"none","vertical":false,"fillContainer":true,"data":[["2022-12-31","2022-11-20","2022-11-19"],["Midnight Run","Race to Deliver 4M to Beneift God's Love We Deliver","Virtual NYRR Run for Thanks 5K"],[4,4,3.1],["K","I",null],["00:38:00","00:41:18","00:30:12"],["00:09:30","00:10:20","00:09:43"]],"container":"<table class=\"display fill-container\">\n  <thead>\n    <tr>\n      <th>Date<\/th>\n      <th>Race<\/th>\n      <th>miles<\/th>\n      <th>Corral<\/th>\n      <th>Time<\/th>\n      <th>Average Pace<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"bPaginate":false,"columnDefs":[{"className":"dt-right","targets":2},{"name":"date","targets":0},{"name":"race","targets":1},{"name":"miles","targets":2},{"name":"corral","targets":3},{"name":"official_time","targets":4},{"name":"official_pace","targets":5}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="row-8" class="section level2">
+<h2>Row</h2>
+<div id="weekly-mileage-excludes-races-2"
+class="section level3 no-padding">
+<h3 class="no-padding"><strong>2022 Weekly Mileage (excludes
+races)</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-3dc94c34740b16d19cb1" style="width:576px;height:460.8px;"></div>
+<script type="application/json" data-for="htmlwidget-3dc94c34740b16d19cb1">{"x":{"data":[{"orientation":"v","width":[6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104,6.3000000000029104],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[18995,19002,19009,19016,19023,19030,19037,19044,19051,19058,19065,19072,19079,19086,19093,19100,19107,19114,19121,19128,19135,19142,19149,19156,19163,19170,19177,19184,19191,19198,19205,19212,19219,19226,19233,19240,19247,19254,19261,19268,19275,19282,19289,19296,19303,19310,19317,19324,19331,19338,19345,19352],"y":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2.4700000000000002,2.1899999999999999,0,0,0,0,0,0,0,0,0,3.1000000000000001,4.1299999999999999,3.6100000000000003,9.0600000000000005,0,1.8600000000000001,0,1.79,1.8400000000000001,1.75,7.4699999999999998,7.0599999999999996,4.9100000000000001,8.6600000000000001,5.4800000000000004,0,9.1199999999999992],"text":["Week beginning 2022-01-03: 0 miles logged","Week beginning 2022-01-10: 0 miles logged","Week beginning 2022-01-17: 0 miles logged","Week beginning 2022-01-24: 0 miles logged","Week beginning 2022-01-31: 0 miles logged","Week beginning 2022-02-07: 0 miles logged","Week beginning 2022-02-14: 0 miles logged","Week beginning 2022-02-21: 0 miles logged","Week beginning 2022-02-28: 0 miles logged","Week beginning 2022-03-07: 0 miles logged","Week beginning 2022-03-14: 0 miles logged","Week beginning 2022-03-21: 0 miles logged","Week beginning 2022-03-28: 0 miles logged","Week beginning 2022-04-04: 0 miles logged","Week beginning 2022-04-11: 0 miles logged","Week beginning 2022-04-18: 0 miles logged","Week beginning 2022-04-25: 0 miles logged","Week beginning 2022-05-02: 0 miles logged","Week beginning 2022-05-09: 0 miles logged","Week beginning 2022-05-16: 0 miles logged","Week beginning 2022-05-23: 0 miles logged","Week beginning 2022-05-30: 0 miles logged","Week beginning 2022-06-06: 0 miles logged","Week beginning 2022-06-13: 0 miles logged","Week beginning 2022-06-20: 2.47 miles logged","Week beginning 2022-06-27: 2.19 miles logged","Week beginning 2022-07-04: 0 miles logged","Week beginning 2022-07-11: 0 miles logged","Week beginning 2022-07-18: 0 miles logged","Week beginning 2022-07-25: 0 miles logged","Week beginning 2022-08-01: 0 miles logged","Week beginning 2022-08-08: 0 miles logged","Week beginning 2022-08-15: 0 miles logged","Week beginning 2022-08-22: 0 miles logged","Week beginning 2022-08-29: 0 miles logged","Week beginning 2022-09-05: 3.1 miles logged","Week beginning 2022-09-12: 4.13 miles logged","Week beginning 2022-09-19: 3.61 miles logged","Week beginning 2022-09-26: 9.06 miles logged","Week beginning 2022-10-03: 0 miles logged","Week beginning 2022-10-10: 1.86 miles logged","Week beginning 2022-10-17: 0 miles logged","Week beginning 2022-10-24: 1.79 miles logged","Week beginning 2022-10-31: 1.84 miles logged","Week beginning 2022-11-07: 1.75 miles logged","Week beginning 2022-11-14: 7.47 miles logged","Week beginning 2022-11-21: 7.06 miles logged","Week beginning 2022-11-28: 4.91 miles logged","Week beginning 2022-12-05: 8.66 miles logged","Week beginning 2022-12-12: 5.48 miles logged","Week beginning 2022-12-19: 0 miles logged","Week beginning 2022-12-26: 9.12 miles logged"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(174,199,224,1)","line":{"width":1.8897637795275593,"color":"transparent"}},"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":25.132420091324207,"r":7.3059360730593621,"b":32.204145266949041,"l":31.415525114155255},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[18973.684999999998,19373.315000000002],"tickmode":"array","ticktext":["Jan 22","Feb 22","Mar 22","Apr 22","May 22","Jun 22","Jul 22","Aug 22","Sep 22","Oct 22","Nov 22","Dec 22","Jan 23"],"tickvals":[18993,19024,19052,19083,19113,19144,19174,19205,19236,19266,19297,19327,19358],"categoryorder":"array","categoryarray":["Jan 22","Feb 22","Mar 22","Apr 22","May 22","Jun 22","Jul 22","Aug 22","Sep 22","Oct 22","Nov 22","Dec 22","Jan 23"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.45599999999999996,9.5759999999999987],"tickmode":"array","ticktext":["0","2","4","6","8"],"tickvals":[0,2,3.9999999999999996,6,8],"categoryorder":"array","categoryarray":["0","2","4","6","8"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"No. of Miles","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48b33800f271":{"x":{},"y":{},"text":{},"type":"bar"}},"cur_data":"48b33800f271","visdat":{"48b33800f271":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="weight-tracking-2" class="section level3 no-padding">
+<h3 class="no-padding"><strong>2022 Weight Tracking</strong></h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-f39ca0f828878118c0cd" style="width:576px;height:460.8px;"></div>
+<script type="application/json" data-for="htmlwidget-f39ca0f828878118c0cd">{"x":{"data":[{"x":[1641055343,1641130112,1641342631,1641476281,1641728668,1641997098,1641997437,1642429127,1643119677,1644581629,1645964324,1646950216,1646950318,1648204596,1648204673,1649344629,1649346994,1650885307,1651837309,1652529603,1654214318,1655721719,1656532718,1656973158,1657707486,1658134507,1658316636,1659349891,1660134470,1660324371,1660386914,1660662487,1660848136,1660986683,1661383368,1662291570,1662380636,1662803868,1663154287,1663507267,1663843084,1663928874,1664042366,1664463526,1664535729,1664807885,1665168719,1665168817,1665410433,1665701645,1666218502,1666953524,1668087166,1668782708,1668860575,1669500970,1670152962,1670316358,1670677664,1670836931,1671135721,1671272408,1672131862,1672220285,1672306442,1672394450],"y":[227,227.80000000000001,226.19999999999999,224.19999999999999,227.19999999999999,229.40000000000001,226.40000000000001,226.80000000000001,225.80000000000001,226.19999999999999,226.80000000000001,226.40000000000001,226.40000000000001,227,227,234.80000000000001,230.80000000000001,228.40000000000001,228.40000000000001,227,228.80000000000001,225.80000000000001,224.19999999999999,227.19999999999999,227.80000000000001,227,228.19999999999999,224.80000000000001,225.40000000000001,223.19999999999999,223.59999999999999,225,222,224.59999999999999,222.59999999999999,223.80000000000001,225.80000000000001,221.19999999999999,224,224,220.40000000000001,221.40000000000001,221.19999999999999,223.40000000000001,224.59999999999999,223.40000000000001,221,221,221.80000000000001,223.19999999999999,227,226,226.59999999999999,221.80000000000001,221,219.59999999999999,220.40000000000001,222,222.40000000000001,227.59999999999999,219.40000000000001,223.80000000000001,222.80000000000001,218.40000000000001,220.40000000000001,222.80000000000001],"text":["date_time: 2022-01-01 16:42:23<br />weight_lb: 227.0","date_time: 2022-01-02 13:28:32<br />weight_lb: 227.8","date_time: 2022-01-05 00:30:31<br />weight_lb: 226.2","date_time: 2022-01-06 13:38:01<br />weight_lb: 224.2","date_time: 2022-01-09 11:44:28<br />weight_lb: 227.2","date_time: 2022-01-12 14:18:18<br />weight_lb: 229.4","date_time: 2022-01-12 14:23:57<br />weight_lb: 226.4","date_time: 2022-01-17 14:18:47<br />weight_lb: 226.8","date_time: 2022-01-25 14:07:57<br />weight_lb: 225.8","date_time: 2022-02-11 12:13:49<br />weight_lb: 226.2","date_time: 2022-02-27 12:18:44<br />weight_lb: 226.8","date_time: 2022-03-10 22:10:16<br />weight_lb: 226.4","date_time: 2022-03-10 22:11:58<br />weight_lb: 226.4","date_time: 2022-03-25 10:36:36<br />weight_lb: 227.0","date_time: 2022-03-25 10:37:53<br />weight_lb: 227.0","date_time: 2022-04-07 15:17:09<br />weight_lb: 234.8","date_time: 2022-04-07 15:56:34<br />weight_lb: 230.8","date_time: 2022-04-25 11:15:07<br />weight_lb: 228.4","date_time: 2022-05-06 11:41:49<br />weight_lb: 228.4","date_time: 2022-05-14 12:00:03<br />weight_lb: 227.0","date_time: 2022-06-02 23:58:38<br />weight_lb: 228.8","date_time: 2022-06-20 10:41:59<br />weight_lb: 225.8","date_time: 2022-06-29 19:58:38<br />weight_lb: 224.2","date_time: 2022-07-04 22:19:18<br />weight_lb: 227.2","date_time: 2022-07-13 10:18:06<br />weight_lb: 227.8","date_time: 2022-07-18 08:55:07<br />weight_lb: 227.0","date_time: 2022-07-20 11:30:36<br />weight_lb: 228.2","date_time: 2022-08-01 10:31:31<br />weight_lb: 224.8","date_time: 2022-08-10 12:27:50<br />weight_lb: 225.4","date_time: 2022-08-12 17:12:51<br />weight_lb: 223.2","date_time: 2022-08-13 10:35:14<br />weight_lb: 223.6","date_time: 2022-08-16 15:08:07<br />weight_lb: 225.0","date_time: 2022-08-18 18:42:16<br />weight_lb: 222.0","date_time: 2022-08-20 09:11:23<br />weight_lb: 224.6","date_time: 2022-08-24 23:22:48<br />weight_lb: 222.6","date_time: 2022-09-04 11:39:30<br />weight_lb: 223.8","date_time: 2022-09-05 12:23:56<br />weight_lb: 225.8","date_time: 2022-09-10 09:57:48<br />weight_lb: 221.2","date_time: 2022-09-14 11:18:07<br />weight_lb: 224.0","date_time: 2022-09-18 13:21:07<br />weight_lb: 224.0","date_time: 2022-09-22 10:38:04<br />weight_lb: 220.4","date_time: 2022-09-23 10:27:54<br />weight_lb: 221.4","date_time: 2022-09-24 17:59:26<br />weight_lb: 221.2","date_time: 2022-09-29 14:58:46<br />weight_lb: 223.4","date_time: 2022-09-30 11:02:09<br />weight_lb: 224.6","date_time: 2022-10-03 14:38:05<br />weight_lb: 223.4","date_time: 2022-10-07 18:51:59<br />weight_lb: 221.0","date_time: 2022-10-07 18:53:37<br />weight_lb: 221.0","date_time: 2022-10-10 14:00:33<br />weight_lb: 221.8","date_time: 2022-10-13 22:54:05<br />weight_lb: 223.2","date_time: 2022-10-19 22:28:22<br />weight_lb: 227.0","date_time: 2022-10-28 10:38:44<br />weight_lb: 226.0","date_time: 2022-11-10 13:32:46<br />weight_lb: 226.6","date_time: 2022-11-18 14:45:08<br />weight_lb: 221.8","date_time: 2022-11-19 12:22:55<br />weight_lb: 221.0","date_time: 2022-11-26 22:16:10<br />weight_lb: 219.6","date_time: 2022-12-04 11:22:42<br />weight_lb: 220.4","date_time: 2022-12-06 08:45:58<br />weight_lb: 222.0","date_time: 2022-12-10 13:07:44<br />weight_lb: 222.4","date_time: 2022-12-12 09:22:11<br />weight_lb: 227.6","date_time: 2022-12-15 20:22:01<br />weight_lb: 219.4","date_time: 2022-12-17 10:20:08<br />weight_lb: 223.8","date_time: 2022-12-27 09:04:22<br />weight_lb: 222.8","date_time: 2022-12-28 09:38:05<br />weight_lb: 218.4","date_time: 2022-12-29 09:34:02<br />weight_lb: 220.4","date_time: 2022-12-30 10:00:50<br />weight_lb: 222.8"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(115,157,199,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":25.132420091324207,"r":7.3059360730593621,"b":32.204145266949041,"l":43.105022831050235},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1639488387.6500001,1673961405.3499999],"tickmode":"array","ticktext":["Jan 22","Feb 22","Mar 22","Apr 22","May 22","Jun 22","Jul 22","Aug 22","Sep 22","Oct 22","Nov 22","Dec 22","Jan 23"],"tickvals":[1640995200,1643673600,1646092800,1648771200,1651363200,1654041600,1656633600,1659312000,1661990400,1664582400,1667260800,1669852800,1672531200],"categoryorder":"array","categoryarray":["Jan 22","Feb 22","Mar 22","Apr 22","May 22","Jun 22","Jul 22","Aug 22","Sep 22","Oct 22","Nov 22","Dec 22","Jan 23"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[217.58000000000001,235.62],"tickmode":"array","ticktext":["218","220","222","224","226","228","230","232","234"],"tickvals":[218,220,222,224,226,228,230,232,234],"categoryorder":"array","categoryarray":["218","220","222","224","226","228","230","232","234"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"lbs","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48b395efb2f":{"x":{},"y":{},"type":"scatter"}},"cur_data":"48b395efb2f","visdat":{"48b395efb2f":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+$(document).ready(function() {
+  // add bootstrap table styles to pandoc tables
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed table-sm');
+
+  // initialize mathjax
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+  document.getElementsByTagName("head")[0].appendChild(script);
+
+});
+</script>
+
+<div id="flexdashboard-source-code">
+<pre class="line-numbers"><code class="language-r">---
+title: "Running Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    source_code: embed
+    theme: bootstrap
+---
+
+```{r package-loading-and-setup}
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+```
+ 
+```{r strava-api}
+# Strava API code lifted directly from the link below
+# https://bldavies.com/blog/accessing-strava-api/
+
+credentials &lt;- yaml::read_yaml("credentials.yaml")
+
+initiate_oauth_app &lt;- httr::oauth_app(
+    appname = "strava",
+    key = credentials$client_id,
+    secret = credentials$client_secret)
+
+endpoint &lt;- httr::oauth_endpoint(
+    request = NULL,
+    authorize = "https://www.strava.com/oauth/authorize",
+    access = "https://www.strava.com/oauth/token")
+
+token &lt;- httr::oauth2.0_token(
+    endpoint = endpoint,
+    app = initiate_oauth_app,
+    scope = "activity:read_all",
+    as_header = FALSE)
+
+df_list &lt;- list()
+i &lt;- 1
+done &lt;- FALSE
+
+while (!done) {
+  req &lt;- httr::GET(
+    url = "https://www.strava.com/api/v3/athlete/activities",
+    config = token,
+    query = list(per_page = 200, page = i)
+  )
+  df_list[[i]] &lt;- jsonlite::fromJSON(httr::content(req, as = "text"), flatten = TRUE)
+  if (length(httr::content(req)) &lt; 200) {
+    done &lt;- TRUE
+  } else {
+    i &lt;- i + 1
+  }
+}
+
+df &lt;- jsonlite::rbind_pages(df_list)
+```
+
+```{r calendar-dates}
+lst_years &lt;-
+    2022:year(Sys.Date()) |&gt; 
+    purrr::map(\(x) 
+               tibble::as_tibble_col(
+                   x = seq(
+                       as_date(glue::glue("{x}-01-01")),
+                       as_date(glue::glue("{x}-12-31")), by = "+1 day"),
+                   column_name = "date") |&gt; 
+               mutate(week_no = isoweek(date)) |&gt; 
+               filter(
+                   !(month(date) == 1 &amp; week_no == 52),
+                   date &lt;= Sys.Date())) |&gt; 
+    purrr::set_names(paste0("y", 2022:year(Sys.Date())))
+
+lst_week_breaks &lt;- 
+    lst_years |&gt; 
+    purrr::map(\(x) 
+               x |&gt; 
+                   slice_head(n = 1, by = week_no) |&gt; 
+                   rename(week_start_date = date))
+```
+
+```{r wrangled-running-data}
+running_log &lt;- 
+    tibble::as_tibble(df) |&gt; 
+    filter(
+        sport_type == "Run",
+        year(start_date) &gt;= 2022) |&gt; 
+    mutate(
+        run_date = as_date(start_date),
+        run_year = if_else(name == "NYRR Midnight Run", year(run_date) - 1, year(run_date)),
+        run_time = hms::hms(seconds_to_period(elapsed_time)),
+        run_day = wday(run_date, abbr = FALSE, label = TRUE),
+        distance_km = round(distance / 1000, 2),
+        distance_mile = round(distance_km * 0.621371, 2),
+        pace_sec_per_km = round(elapsed_time / distance_km, 2),
+        pace_sec_per_mile = round(pace_sec_per_km * 1.609344, 2),
+        avg_pace = hms::hms(round(seconds_to_period(pace_sec_per_mile), 0)),
+        is_race = if_else(workout_type %in% 1, TRUE, FALSE),
+        name = if_else(is_race == TRUE, name, NA)) |&gt; 
+    select(
+        name,
+        is_race,
+        run_year,
+        run_date,
+        run_time,
+        run_day,
+        distance_mile,
+        total_elevation_gain,
+        elev_low,
+        elev_high,
+        average_heartrate,
+        run_time,
+        avg_pace)
+```
+
+```{r nyrr-corral-placement-table, eval = FALSE}
+nyrr_best_pace_functional &lt;- as_datetime(paste0("1899-12-30 00:07:50)"))
+nyrr_best_pace_pretty &lt;- hms::as_hms(nyrr_best_pace_functional)
+
+nyrr_corral_placement_tbl &lt;- 
+    googlesheets4::read_sheet("15iwn0ad1UlaviNjguH2JZq76tycSHvpNlcm10EO19JI") |&gt; 
+    select(1:2) |&gt; 
+    janitor::clean_names() |&gt; 
+    slice(7:17) |&gt; 
+    tidyr::unnest(cols = race_distance) |&gt; 
+    mutate(
+        max_best_pace = race_distance,
+        min_best_pace = lag(max_best_pace) + 1,
+        best_pace_interval = min_best_pace %--% max_best_pace,
+        in_corral = if_else(nyrr_best_pace_functional %within% best_pace_interval, TRUE, FALSE),
+        in_corral = if_else(is.na(in_corral), FALSE, in_corral),
+        across(min_best_pace:max_best_pace, function(x) hms::as_hms(x))) |&gt; 
+    select(corral = pace_units, in_corral, min_best_pace, max_best_pace)
+```
+
+```{r official-race-results-table}
+official_race_results_tbl &lt;- 
+    googlesheets4::read_sheet("1tuC2WBHkDdGDOIbmgnZT32qw7pm4rCXma5Gp7eS41XQ") |&gt; 
+    mutate(
+        date = as_date(date),
+        across(c(official_time, official_pace), function(x) hms::as_hms(x)))
+```
+
+```{r weigh-in-data}
+weight_hx &lt;- 
+    readr::read_csv(
+        file = "./data/weight_history.csv",
+        show_col_types = FALSE,
+        name_repair = janitor::make_clean_names) |&gt; 
+    mutate(date_time = parsedate::parse_date(date_time)) |&gt; 
+    select(date_time, weight_lb, bmi)
+
+plt_wgt_tracking_list &lt;-
+    purrr::map(
+        .x = 2022:year(Sys.Date()),
+        .f = function(x) {
+            plt &lt;- 
+                weight_hx |&gt; 
+                filter(between(
+                    date_time,
+                    as_datetime(glue::glue("{x}-01-01 00:00:00")),
+                    as_datetime(glue::glue("{x}-12-31 23:59:59")))) |&gt; 
+                ggplot() +
+                geom_line(aes(x = date_time, y = weight_lb), colour = "#739dc7") + 
+                scale_x_datetime(date_breaks = "1 month", date_labels = "%b %y") + 
+                scale_y_continuous("lbs", n.breaks = 12) + 
+                theme(
+                    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+                    axis.title.x = element_blank())
+            
+            plotly::ggplotly(plt)}) |&gt; 
+    purrr::set_names(paste0("y", 2022:year(Sys.Date())))
+```
+
+2024
+===================================== 
+
+Row
+-------------------------------------
+
+### No. of Miles Ran
+
+```{r total-mileage-2024}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(run_year == 2024) |&gt; 
+        summarize(sum(distance_mile)) |&gt; 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Run Pace (All Distances)
+
+```{r average-run-pace-2024}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2024,
+            is_race == FALSE) |&gt; 
+        summarize(mean(avg_pace)) |&gt; 
+        tibble::deframe() |&gt; 
+        hms::as_hms() |&gt; 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-simple")
+```
+
+### No. of Races Ran
+
+```{r total-races-ran-2024}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2024,
+            is_race == TRUE) |&gt; 
+        count() |&gt; 
+        tibble::deframe(),
+    icon = "fa-medal")
+```
+
+### No. of Race Miles Ran
+
+```{r total-race-mileage-2024}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2024,
+            is_race == TRUE) |&gt; 
+        summarize(sum(distance_mile)) |&gt; 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Race Pace (All Distances)
+
+```{r average-race-pace-2024}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2024,
+            is_race == TRUE) |&gt; 
+        summarize(mean(avg_pace)) |&gt; 
+        tibble::deframe() |&gt; 
+        hms::as_hms() |&gt; 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-high")
+```
+
+Row
+-------------------------------------
+
+### **2024 Run Data (excludes races)**
+    
+```{r run-metrics-table-2024}
+running_log |&gt; 
+    filter(
+        run_year == 2024,
+        is_race == FALSE) |&gt; 
+    select(run_date, run_time, distance_mile, avg_pace, total_elevation_gain) |&gt; 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Date" = "run_date",
+            "Time" = "run_time",
+            "Distance" = "distance_mile",
+            "Elevation Gain" = "total_elevation_gain",
+            "Average Pace" = "avg_pace"))
+```
+
+```{r race-metrics-table-2024, eval = FALSE}
+running_log |&gt; 
+    filter(
+        run_year == 2024,
+        is_race == TRUE) |&gt; 
+    select(name, run_date, run_time, distance_mile, avg_pace) |&gt; 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Race" = "name",
+            "Date" = "run_date",
+            "Time" = "run_time",
+            "Distance" = "distance_mile",
+            "Average Pace" = "avg_pace"))
+```
+
+### **2024 Official Race Results**
+
+```{r race-official-data-table-2024}
+official_race_results_tbl |&gt; 
+    filter(
+        year(date) == 2024,
+        !is.na(official_time)) |&gt; 
+    select(date:official_pace) |&gt; 
+    arrange(desc(date)) |&gt; 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Date" = "date",
+            "Race" = "race",
+            "Corral" = "corral",
+            "Time" = "official_time",
+            "Average Pace" = "official_pace"))
+```
+
+Row
+-------------------------------------
+
+### **2024 Weekly Mileage (excludes races)** {.no-padding}
+
+```{r run-mileage-totals-by-week-2024}
+plt_weekly_mileage_2024 &lt;- 
+    running_log |&gt; 
+    filter(run_year == 2024, is_race == FALSE) |&gt; 
+    select(run_date, distance_mile) %&gt;%
+    left_join(x = lst_years$y2024, y = ., by = c("date" = "run_date")) |&gt; 
+    mutate(
+        week_no = isoweek(date),
+        distance_mile = if_else(is.na(distance_mile), 0, distance_mile)) |&gt; 
+    summarize(mileage = sum(distance_mile), .by = week_no) %&gt;%
+    left_join(x = ., y = lst_week_breaks$y2024, by = "week_no") |&gt; 
+    ggplot() + 
+    geom_col(
+        aes(
+            x = week_start_date,
+            y = mileage,
+            text = paste0(
+                "Week beginning ",
+                lst_week_breaks$y2024$week_start_date,
+                ": ", mileage, " miles logged")),
+        fill = "#aec7e0") + 
+    scale_x_date(date_breaks = "1 month", date_labels = "%b %y") + 
+    scale_y_continuous(breaks = seq(from = 0, to = 50, by = 2)) + 
+    theme(
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+        axis.title.x=element_blank()) + 
+    ylab("No. of Miles")
+
+plotly::ggplotly(plt_weekly_mileage_2024, tooltip = "text")
+```
+
+### **2024 Weight Tracking** {.no-padding}
+
+```{r weight-tracking-2024}
+plt_wgt_tracking_list$y2024
+```
+
+2023
+===================================== 
+
+Row
+-------------------------------------
+
+### No. of Miles Ran
+
+```{r total-mileage-2023}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(run_year == 2023) |&gt; 
+        summarize(sum(distance_mile)) |&gt; 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Run Pace (All Distances)
+
+```{r average-run-pace-2023}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2023,
+            is_race == FALSE) |&gt; 
+        summarize(mean(avg_pace)) |&gt; 
+        tibble::deframe() |&gt; 
+        hms::as_hms() |&gt; 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-simple")
+```
+
+### No. of Races Ran
+
+```{r total-races-ran-2023}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2023,
+            is_race == TRUE) |&gt; 
+        count() |&gt; 
+        tibble::deframe(),
+    icon = "fa-medal")
+```
+
+### No. of Race Miles Ran
+
+```{r total-race-mileage-2023}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2023,
+            is_race == TRUE) |&gt; 
+        summarize(sum(distance_mile)) |&gt; 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Race Pace (All Distances)
+
+```{r average-race-pace-2023}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2023,
+            is_race == TRUE) |&gt; 
+        summarize(mean(avg_pace)) |&gt; 
+        tibble::deframe() |&gt; 
+        hms::as_hms() |&gt; 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-high")
+```
+
+Row
+-------------------------------------
+    
+### **2023 Run Data (excludes races)**
+    
+```{r run-metrics-table-2023}
+running_log |&gt; 
+    filter(
+        run_year == 2023,
+        is_race == FALSE) |&gt; 
+    select(run_date, run_time, distance_mile, avg_pace, total_elevation_gain) |&gt; 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(
+            bPaginate = FALSE),
+        colnames = c(
+            "Date" = "run_date",
+            "Time" = "run_time",
+            "Distance" = "distance_mile",
+            "Elevation Gain" = "total_elevation_gain",
+            "Average Pace" = "avg_pace"))
+```
+
+### **2023 Official Race Results**
+    
+```{r race-official-data-table-2023}
+official_race_results_tbl |&gt; 
+    filter(
+        year(date) == 2023,
+        !is.na(official_time)) |&gt; 
+    select(date:official_pace) |&gt; 
+    arrange(desc(date)) |&gt; 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Date" = "date",
+            "Race" = "race",
+            "Corral" = "corral",
+            "Time" = "official_time",
+            "Average Pace" = "official_pace"))
+```
+
+Row
+-------------------------------------
+
+### **2023 Weekly Mileage (excludes races)** {.no-padding}
+
+```{r run-mileage-totals-by-week-2023}
+plt_weekly_mileage_2023 &lt;- 
+    running_log |&gt; 
+    filter(run_year == 2023, is_race == FALSE) |&gt; 
+    select(run_date, distance_mile) %&gt;%
+    left_join(x = lst_years$y2023, y = ., by = c("date" = "run_date")) |&gt; 
+    mutate(
+        week_no = isoweek(date),
+        distance_mile = if_else(is.na(distance_mile), 0, distance_mile)) |&gt; 
+    summarize(mileage = sum(distance_mile), .by = week_no) %&gt;% 
+    left_join(x = ., y = lst_week_breaks$y2023, by = "week_no") |&gt; 
+    ggplot() + 
+    geom_col(
+        aes(
+            x = week_start_date,
+            y = mileage,
+            text = paste0(
+                "Week beginning ",
+                lst_week_breaks$y2023$week_start_date,
+                ": ", mileage, " miles logged")),
+        fill = "#aec7e0") + 
+    scale_x_date(date_breaks = "1 month", date_labels = "%b %y") + 
+    scale_y_continuous(breaks = seq(from = 0, to = 50, by = 2)) + 
+    theme(
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+        axis.title.x=element_blank()) + 
+    ylab("No. of Miles")
+
+plotly::ggplotly(plt_weekly_mileage_2023, tooltip = "text")
+```
+
+### **2023 Weight Tracking** {.no-padding}
+
+```{r weight-tracking-2023}
+plt_wgt_tracking_list$y2023
+```
+
+2022
+===================================== 
+
+Row
+-------------------------------------
+
+### No. of Miles Ran
+
+```{r total-mileage-2022}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(run_year == 2022) |&gt; 
+        summarize(sum(distance_mile)) |&gt; 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Run Pace (All Distances)
+
+```{r average-run-pace-2022}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2022,
+            is_race == FALSE) |&gt; 
+        summarize(mean(avg_pace)) |&gt; 
+        tibble::deframe() |&gt; 
+        hms::as_hms() |&gt; 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-simple")
+```
+
+### No. of Races Ran
+
+```{r total-races-ran-2022}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2022,
+            is_race == TRUE) |&gt; 
+        count() |&gt; 
+        tibble::deframe(),
+    icon = "fa-medal")
+```
+
+### No. of Race Miles Ran
+
+```{r total-race-mileage-2022}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2022,
+            is_race == TRUE) |&gt; 
+        summarize(sum(distance_mile)) |&gt; 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Race Pace (All Distances)
+
+```{r average-race-pace-2022}
+flexdashboard::valueBox(
+    running_log |&gt; 
+        filter(
+            run_year == 2022,
+            is_race == TRUE) |&gt; 
+        summarize(mean(avg_pace)) |&gt; 
+        tibble::deframe() |&gt; 
+        hms::as_hms() |&gt; 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-high")
+```
+
+Row
+-------------------------------------
+    
+### **2022 Run Data (excludes races)**
+
+```{r run-metrics-table-2022}
+running_log |&gt; 
+    filter(
+        run_year == 2022,
+        is_race == FALSE) |&gt; 
+    select(run_date, run_time, distance_mile, avg_pace, total_elevation_gain) |&gt; 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Date" = "run_date",
+            "Time" = "run_time",
+            "Distance" = "distance_mile",
+            "Elevation Gain" = "total_elevation_gain",
+            "Average Pace" = "avg_pace"))
+```
+
+### **2022 Official Race Results**
+    
+```{r race-official-data-table-2022}
+official_race_results_tbl |&gt; 
+    filter(
+        year(date) == 2022,
+        !is.na(official_time)) |&gt; 
+    select(date:official_pace) |&gt; 
+    arrange(desc(date)) |&gt; 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Date" = "date",
+            "Race" = "race",
+            "Corral" = "corral",
+            "Time" = "official_time",
+            "Average Pace" = "official_pace"))
+```
+   
+Row
+-------------------------------------
+
+### **2022 Weekly Mileage (excludes races)** {.no-padding}
+
+```{r run-mileage-totals-by-week-2022}
+plt_weekly_mileage_2022 &lt;- 
+    running_log |&gt; 
+    filter(run_year == 2022, is_race == FALSE) |&gt; 
+    select(run_date, distance_mile) %&gt;% 
+    left_join(x = lst_years$y2022, y = ., by = c("date" = "run_date")) |&gt; 
+    mutate(
+        week_no = isoweek(date),
+        distance_mile = if_else(is.na(distance_mile), 0, distance_mile)) |&gt; 
+    summarize(mileage = sum(distance_mile), .by = week_no) %&gt;% 
+    left_join(x = ., y = lst_week_breaks$y2022, by = "week_no") |&gt; 
+    ggplot() + 
+    geom_col(
+        aes(
+            x = week_start_date,
+            y = mileage,
+            text = paste0(
+                "Week beginning ",
+                lst_week_breaks$y2022$week_start_date,
+                ": ", mileage, " miles logged")),
+        fill = "#aec7e0") + 
+    scale_x_date(date_breaks = "1 month", date_labels = "%b %y") + 
+    scale_y_continuous(breaks = seq(from = 0, to = 50, by = 2)) + 
+    theme(
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+        axis.title.x=element_blank()) + 
+    ylab("No. of Miles")
+
+plotly::ggplotly(plt_weekly_mileage_2022, tooltip = "text")
+```
+
+### **2022 Weight Tracking** {.no-padding}
+
+```{r weight-tracking-2022}
+plt_wgt_tracking_list$y2022
+```
+</code></pre>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+  FlexDashboard.init({
+    fillPage: true,
+    orientation: "rows",
+    storyboard: false,
+    defaultFigWidth: 576,
+    defaultFigHeight: 460,
+    defaultFigWidthMobile: 360,
+    defaultFigHeightMobile: 460,
+    resize_reload: true
+  });
+  var navbar = $(".navbar").first();
+  var body = $("body").first();
+  var sidebar = $(".section.sidebar").first();
+  function addNavbarPadding() {
+    var navHeight = navbar.outerHeight();
+    body.css("padding-top", (navHeight + 8) + "px");
+    sidebar.css("top", navHeight + "px");
+    var resizeEvent = window.document.createEvent("UIEvents");
+    resizeEvent.initUIEvent("resize", true, false, window, 0);
+    window.dispatchEvent(resizeEvent);
+  }
+  if (!window.Shiny) setTimeout(addNavbarPadding, 100);
+  $(document).on("shiny:idle", function() {
+    setTimeout(addNavbarPadding, 50);
+  });
+});
+</script>
+
+</body>
+</html>
