@@ -1,0 +1,669 @@
+---
+title: "Running Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    source_code: embed
+    theme: bootstrap
+---
+
+```{r package-loading-and-setup}
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+```
+ 
+```{r strava-api}
+# Strava API code lifted directly from the link below
+# https://bldavies.com/blog/accessing-strava-api/
+
+credentials <- yaml::read_yaml("credentials.yaml")
+
+initiate_oauth_app <- httr::oauth_app(
+    appname = "strava",
+    key = credentials$client_id,
+    secret = credentials$client_secret)
+
+endpoint <- httr::oauth_endpoint(
+    request = NULL,
+    authorize = "https://www.strava.com/oauth/authorize",
+    access = "https://www.strava.com/oauth/token")
+
+token <- httr::oauth2.0_token(
+    endpoint = endpoint,
+    app = initiate_oauth_app,
+    scope = "activity:read_all",
+    as_header = FALSE)
+
+df_list <- list()
+i <- 1
+done <- FALSE
+
+while (!done) {
+  req <- httr::GET(
+    url = "https://www.strava.com/api/v3/athlete/activities",
+    config = token,
+    query = list(per_page = 200, page = i)
+  )
+  df_list[[i]] <- jsonlite::fromJSON(httr::content(req, as = "text"), flatten = TRUE)
+  if (length(httr::content(req)) < 200) {
+    done <- TRUE
+  } else {
+    i <- i + 1
+  }
+}
+
+df <- jsonlite::rbind_pages(df_list)
+```
+
+```{r calendar-dates}
+lst_years <-
+    2022:year(Sys.Date()) |> 
+    purrr::map(\(x) 
+               tibble::as_tibble_col(
+                   x = seq(
+                       as_date(glue::glue("{x}-01-01")),
+                       as_date(glue::glue("{x}-12-31")), by = "+1 day"),
+                   column_name = "date") |> 
+               mutate(week_no = isoweek(date)) |> 
+               filter(
+                   !(month(date) == 1 & week_no == 52),
+                   date <= Sys.Date())) |> 
+    purrr::set_names(paste0("y", 2022:year(Sys.Date())))
+
+lst_week_breaks <- 
+    lst_years |> 
+    purrr::map(\(x) 
+               x |> 
+                   slice_head(n = 1, by = week_no) |> 
+                   rename(week_start_date = date))
+```
+
+```{r wrangled-running-data}
+running_log <- 
+    tibble::as_tibble(df) |> 
+    filter(
+        sport_type == "Run",
+        year(start_date) >= 2022) |> 
+    mutate(
+        run_date = as_date(start_date),
+        run_year = if_else(name == "NYRR Midnight Run", year(run_date) - 1, year(run_date)),
+        run_time = hms::hms(seconds_to_period(elapsed_time)),
+        run_day = wday(run_date, abbr = FALSE, label = TRUE),
+        distance_km = round(distance / 1000, 2),
+        distance_mile = round(distance_km * 0.621371, 2),
+        pace_sec_per_km = round(elapsed_time / distance_km, 2),
+        pace_sec_per_mile = round(pace_sec_per_km * 1.609344, 2),
+        avg_pace = hms::hms(round(seconds_to_period(pace_sec_per_mile), 0)),
+        is_race = if_else(workout_type %in% 1, TRUE, FALSE),
+        name = if_else(is_race == TRUE, name, NA)) |> 
+    select(
+        name,
+        is_race,
+        run_year,
+        run_date,
+        run_time,
+        run_day,
+        distance_mile,
+        total_elevation_gain,
+        elev_low,
+        elev_high,
+        average_heartrate,
+        run_time,
+        avg_pace)
+```
+
+```{r nyrr-corral-placement-table, eval = FALSE}
+nyrr_best_pace_functional <- as_datetime(paste0("1899-12-30 00:07:50)"))
+nyrr_best_pace_pretty <- hms::as_hms(nyrr_best_pace_functional)
+
+nyrr_corral_placement_tbl <- 
+    googlesheets4::read_sheet("15iwn0ad1UlaviNjguH2JZq76tycSHvpNlcm10EO19JI") |> 
+    select(1:2) |> 
+    janitor::clean_names() |> 
+    slice(7:17) |> 
+    tidyr::unnest(cols = race_distance) |> 
+    mutate(
+        max_best_pace = race_distance,
+        min_best_pace = lag(max_best_pace) + 1,
+        best_pace_interval = min_best_pace %--% max_best_pace,
+        in_corral = if_else(nyrr_best_pace_functional %within% best_pace_interval, TRUE, FALSE),
+        in_corral = if_else(is.na(in_corral), FALSE, in_corral),
+        across(min_best_pace:max_best_pace, function(x) hms::as_hms(x))) |> 
+    select(corral = pace_units, in_corral, min_best_pace, max_best_pace)
+```
+
+```{r official-race-results-table}
+official_race_results_tbl <- 
+    googlesheets4::read_sheet("1tuC2WBHkDdGDOIbmgnZT32qw7pm4rCXma5Gp7eS41XQ") |> 
+    mutate(
+        date = as_date(date),
+        across(c(official_time, official_pace), function(x) hms::as_hms(x)))
+```
+
+```{r weigh-in-data}
+weight_hx <- 
+    readr::read_csv(
+        file = "./data/weight_history.csv",
+        show_col_types = FALSE,
+        name_repair = janitor::make_clean_names) |> 
+    mutate(date_time = parsedate::parse_date(date_time)) |> 
+    select(date_time, weight_lb, bmi)
+
+plt_wgt_tracking_list <-
+    purrr::map(
+        .x = 2022:year(Sys.Date()),
+        .f = function(x) {
+            plt <- 
+                weight_hx |> 
+                filter(between(
+                    date_time,
+                    as_datetime(glue::glue("{x}-01-01 00:00:00")),
+                    as_datetime(glue::glue("{x}-12-31 23:59:59")))) |> 
+                ggplot() +
+                geom_line(aes(x = date_time, y = weight_lb), colour = "#739dc7") + 
+                scale_x_datetime(date_breaks = "1 month", date_labels = "%b %y") + 
+                scale_y_continuous("lbs", n.breaks = 12) + 
+                theme(
+                    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+                    axis.title.x = element_blank())
+            
+            plotly::ggplotly(plt)}) |> 
+    purrr::set_names(paste0("y", 2022:year(Sys.Date())))
+```
+
+2024
+===================================== 
+
+Row
+-------------------------------------
+
+### No. of Miles Ran
+
+```{r total-mileage-2024}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(run_year == 2024) |> 
+        summarize(sum(distance_mile)) |> 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Run Pace (All Distances)
+
+```{r average-run-pace-2024}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2024,
+            is_race == FALSE) |> 
+        summarize(mean(avg_pace)) |> 
+        tibble::deframe() |> 
+        hms::as_hms() |> 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-simple")
+```
+
+### No. of Races Ran
+
+```{r total-races-ran-2024}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2024,
+            is_race == TRUE) |> 
+        count() |> 
+        tibble::deframe(),
+    icon = "fa-medal")
+```
+
+### No. of Race Miles Ran
+
+```{r total-race-mileage-2024}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2024,
+            is_race == TRUE) |> 
+        summarize(sum(distance_mile)) |> 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Race Pace (All Distances)
+
+```{r average-race-pace-2024}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2024,
+            is_race == TRUE) |> 
+        summarize(mean(avg_pace)) |> 
+        tibble::deframe() |> 
+        hms::as_hms() |> 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-high")
+```
+
+Row
+-------------------------------------
+
+### **2024 Run Data (excludes races)**
+    
+```{r run-metrics-table-2024}
+running_log |> 
+    filter(
+        run_year == 2024,
+        is_race == FALSE) |> 
+    select(run_date, run_time, distance_mile, avg_pace, total_elevation_gain) |> 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Date" = "run_date",
+            "Time" = "run_time",
+            "Distance" = "distance_mile",
+            "Elevation Gain" = "total_elevation_gain",
+            "Average Pace" = "avg_pace"))
+```
+
+```{r race-metrics-table-2024, eval = FALSE}
+running_log |> 
+    filter(
+        run_year == 2024,
+        is_race == TRUE) |> 
+    select(name, run_date, run_time, distance_mile, avg_pace) |> 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Race" = "name",
+            "Date" = "run_date",
+            "Time" = "run_time",
+            "Distance" = "distance_mile",
+            "Average Pace" = "avg_pace"))
+```
+
+### **2024 Official Race Results**
+
+```{r race-official-data-table-2024}
+official_race_results_tbl |> 
+    filter(
+        year(date) == 2024,
+        !is.na(official_time)) |> 
+    select(date:official_pace) |> 
+    arrange(desc(date)) |> 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Date" = "date",
+            "Race" = "race",
+            "Corral" = "corral",
+            "Time" = "official_time",
+            "Average Pace" = "official_pace"))
+```
+
+Row
+-------------------------------------
+
+### **2024 Weekly Mileage (excludes races)** {.no-padding}
+
+```{r run-mileage-totals-by-week-2024}
+plt_weekly_mileage_2024 <- 
+    running_log |> 
+    filter(run_year == 2024, is_race == FALSE) |> 
+    select(run_date, distance_mile) %>%
+    left_join(x = lst_years$y2024, y = ., by = c("date" = "run_date")) |> 
+    mutate(
+        week_no = isoweek(date),
+        distance_mile = if_else(is.na(distance_mile), 0, distance_mile)) |> 
+    summarize(mileage = sum(distance_mile), .by = week_no) %>%
+    left_join(x = ., y = lst_week_breaks$y2024, by = "week_no") |> 
+    ggplot() + 
+    geom_col(
+        aes(
+            x = week_start_date,
+            y = mileage,
+            text = paste0(
+                "Week beginning ",
+                lst_week_breaks$y2024$week_start_date,
+                ": ", mileage, " miles logged")),
+        fill = "#aec7e0") + 
+    scale_x_date(date_breaks = "1 month", date_labels = "%b %y") + 
+    scale_y_continuous(breaks = seq(from = 0, to = 50, by = 2)) + 
+    theme(
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+        axis.title.x=element_blank()) + 
+    ylab("No. of Miles")
+
+plotly::ggplotly(plt_weekly_mileage_2024, tooltip = "text")
+```
+
+### **2024 Weight Tracking** {.no-padding}
+
+```{r weight-tracking-2024}
+plt_wgt_tracking_list$y2024
+```
+
+2023
+===================================== 
+
+Row
+-------------------------------------
+
+### No. of Miles Ran
+
+```{r total-mileage-2023}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(run_year == 2023) |> 
+        summarize(sum(distance_mile)) |> 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Run Pace (All Distances)
+
+```{r average-run-pace-2023}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2023,
+            is_race == FALSE) |> 
+        summarize(mean(avg_pace)) |> 
+        tibble::deframe() |> 
+        hms::as_hms() |> 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-simple")
+```
+
+### No. of Races Ran
+
+```{r total-races-ran-2023}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2023,
+            is_race == TRUE) |> 
+        count() |> 
+        tibble::deframe(),
+    icon = "fa-medal")
+```
+
+### No. of Race Miles Ran
+
+```{r total-race-mileage-2023}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2023,
+            is_race == TRUE) |> 
+        summarize(sum(distance_mile)) |> 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Race Pace (All Distances)
+
+```{r average-race-pace-2023}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2023,
+            is_race == TRUE) |> 
+        summarize(mean(avg_pace)) |> 
+        tibble::deframe() |> 
+        hms::as_hms() |> 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-high")
+```
+
+Row
+-------------------------------------
+    
+### **2023 Run Data (excludes races)**
+    
+```{r run-metrics-table-2023}
+running_log |> 
+    filter(
+        run_year == 2023,
+        is_race == FALSE) |> 
+    select(run_date, run_time, distance_mile, avg_pace, total_elevation_gain) |> 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(
+            bPaginate = FALSE),
+        colnames = c(
+            "Date" = "run_date",
+            "Time" = "run_time",
+            "Distance" = "distance_mile",
+            "Elevation Gain" = "total_elevation_gain",
+            "Average Pace" = "avg_pace"))
+```
+
+### **2023 Official Race Results**
+    
+```{r race-official-data-table-2023}
+official_race_results_tbl |> 
+    filter(
+        year(date) == 2023,
+        !is.na(official_time)) |> 
+    select(date:official_pace) |> 
+    arrange(desc(date)) |> 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Date" = "date",
+            "Race" = "race",
+            "Corral" = "corral",
+            "Time" = "official_time",
+            "Average Pace" = "official_pace"))
+```
+
+Row
+-------------------------------------
+
+### **2023 Weekly Mileage (excludes races)** {.no-padding}
+
+```{r run-mileage-totals-by-week-2023}
+plt_weekly_mileage_2023 <- 
+    running_log |> 
+    filter(run_year == 2023, is_race == FALSE) |> 
+    select(run_date, distance_mile) %>%
+    left_join(x = lst_years$y2023, y = ., by = c("date" = "run_date")) |> 
+    mutate(
+        week_no = isoweek(date),
+        distance_mile = if_else(is.na(distance_mile), 0, distance_mile)) |> 
+    summarize(mileage = sum(distance_mile), .by = week_no) %>% 
+    left_join(x = ., y = lst_week_breaks$y2023, by = "week_no") |> 
+    ggplot() + 
+    geom_col(
+        aes(
+            x = week_start_date,
+            y = mileage,
+            text = paste0(
+                "Week beginning ",
+                lst_week_breaks$y2023$week_start_date,
+                ": ", mileage, " miles logged")),
+        fill = "#aec7e0") + 
+    scale_x_date(date_breaks = "1 month", date_labels = "%b %y") + 
+    scale_y_continuous(breaks = seq(from = 0, to = 50, by = 2)) + 
+    theme(
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+        axis.title.x=element_blank()) + 
+    ylab("No. of Miles")
+
+plotly::ggplotly(plt_weekly_mileage_2023, tooltip = "text")
+```
+
+### **2023 Weight Tracking** {.no-padding}
+
+```{r weight-tracking-2023}
+plt_wgt_tracking_list$y2023
+```
+
+2022
+===================================== 
+
+Row
+-------------------------------------
+
+### No. of Miles Ran
+
+```{r total-mileage-2022}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(run_year == 2022) |> 
+        summarize(sum(distance_mile)) |> 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Run Pace (All Distances)
+
+```{r average-run-pace-2022}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2022,
+            is_race == FALSE) |> 
+        summarize(mean(avg_pace)) |> 
+        tibble::deframe() |> 
+        hms::as_hms() |> 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-simple")
+```
+
+### No. of Races Ran
+
+```{r total-races-ran-2022}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2022,
+            is_race == TRUE) |> 
+        count() |> 
+        tibble::deframe(),
+    icon = "fa-medal")
+```
+
+### No. of Race Miles Ran
+
+```{r total-race-mileage-2022}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2022,
+            is_race == TRUE) |> 
+        summarize(sum(distance_mile)) |> 
+        tibble::deframe(),
+    icon = "fa-person-running")
+```
+
+### Average Race Pace (All Distances)
+
+```{r average-race-pace-2022}
+flexdashboard::valueBox(
+    running_log |> 
+        filter(
+            run_year == 2022,
+            is_race == TRUE) |> 
+        summarize(mean(avg_pace)) |> 
+        tibble::deframe() |> 
+        hms::as_hms() |> 
+        hms::round_hms(digits = 0),
+    icon = "fa-gauge-high")
+```
+
+Row
+-------------------------------------
+    
+### **2022 Run Data (excludes races)**
+
+```{r run-metrics-table-2022}
+running_log |> 
+    filter(
+        run_year == 2022,
+        is_race == FALSE) |> 
+    select(run_date, run_time, distance_mile, avg_pace, total_elevation_gain) |> 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Date" = "run_date",
+            "Time" = "run_time",
+            "Distance" = "distance_mile",
+            "Elevation Gain" = "total_elevation_gain",
+            "Average Pace" = "avg_pace"))
+```
+
+### **2022 Official Race Results**
+    
+```{r race-official-data-table-2022}
+official_race_results_tbl |> 
+    filter(
+        year(date) == 2022,
+        !is.na(official_time)) |> 
+    select(date:official_pace) |> 
+    arrange(desc(date)) |> 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(bPaginate = FALSE),
+        colnames = c(
+            "Date" = "date",
+            "Race" = "race",
+            "Corral" = "corral",
+            "Time" = "official_time",
+            "Average Pace" = "official_pace"))
+```
+   
+Row
+-------------------------------------
+
+### **2022 Weekly Mileage (excludes races)** {.no-padding}
+
+```{r run-mileage-totals-by-week-2022}
+plt_weekly_mileage_2022 <- 
+    running_log |> 
+    filter(run_year == 2022, is_race == FALSE) |> 
+    select(run_date, distance_mile) %>% 
+    left_join(x = lst_years$y2022, y = ., by = c("date" = "run_date")) |> 
+    mutate(
+        week_no = isoweek(date),
+        distance_mile = if_else(is.na(distance_mile), 0, distance_mile)) |> 
+    summarize(mileage = sum(distance_mile), .by = week_no) %>% 
+    left_join(x = ., y = lst_week_breaks$y2022, by = "week_no") |> 
+    ggplot() + 
+    geom_col(
+        aes(
+            x = week_start_date,
+            y = mileage,
+            text = paste0(
+                "Week beginning ",
+                lst_week_breaks$y2022$week_start_date,
+                ": ", mileage, " miles logged")),
+        fill = "#aec7e0") + 
+    scale_x_date(date_breaks = "1 month", date_labels = "%b %y") + 
+    scale_y_continuous(breaks = seq(from = 0, to = 50, by = 2)) + 
+    theme(
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+        axis.title.x=element_blank()) + 
+    ylab("No. of Miles")
+
+plotly::ggplotly(plt_weekly_mileage_2022, tooltip = "text")
+```
+
+### **2022 Weight Tracking** {.no-padding}
+
+```{r weight-tracking-2022}
+plt_wgt_tracking_list$y2022
+```
