@@ -141,6 +141,52 @@ official_race_results_tbl <-
         across(c(official_time, official_pace), function(x) hms::as_hms(x)))
 ```
 
+```{r official-race-results-metrics}
+lst_race_metrics <- 
+    2022:year(Sys.Date()) |> 
+    purrr::map(\(x) list()) |> 
+    purrr::set_names(paste0("y", 2022:year(Sys.Date())))
+
+lst_no_of_races <- 
+    purrr::map(
+        .x = 2022:year(Sys.Date()),
+        .f = function(x) 
+            official_race_results_tbl |> 
+            filter(year(date) == x & !is.na(official_time)) |> 
+            count(name = "no_of_races") |> 
+            tibble::deframe()) |> 
+    purrr::set_names(paste0("y", 2022:year(Sys.Date())))
+
+lst_no_of_miles <- 
+    purrr::map(
+        .x = 2022:year(Sys.Date()),
+        .f = function(x) 
+            official_race_results_tbl |> 
+            filter(year(date) == x & !is.na(official_time)) |> 
+            summarize(no_of_miles = sum(miles)) |> 
+            tibble::deframe()) |> 
+    purrr::set_names(paste0("y", 2022:year(Sys.Date())))
+
+lst_avg_paces <- 
+    purrr::map(
+        .x = 2022:year(Sys.Date()),
+        .f = function(x) 
+            official_race_results_tbl |> 
+            filter(year(date) == x & !is.na(official_time)) |> 
+            summarize(avg_pace = mean(official_pace)) |> 
+            transmute(avg_pace = hms::hms(round(seconds_to_period(avg_pace), 0))) |> 
+            tibble::deframe()) |> 
+    purrr::set_names(paste0("y", 2022:year(Sys.Date())))
+
+lst_race_metrics$y2022 <- list(lst_no_of_races$y2022, lst_no_of_miles$y2022, lst_avg_paces$y2022)
+lst_race_metrics$y2023 <- list(lst_no_of_races$y2023, lst_no_of_miles$y2023, lst_avg_paces$y2023)
+lst_race_metrics$y2024 <- list(lst_no_of_races$y2024, lst_no_of_miles$y2024, lst_avg_paces$y2024)
+
+names(lst_race_metrics$y2022) <- c("no_of_races", "no_of_miles", "avg_pace")
+names(lst_race_metrics$y2023) <- c("no_of_races", "no_of_miles", "avg_pace")
+names(lst_race_metrics$y2024) <- c("no_of_races", "no_of_miles", "avg_pace")
+```
+
 ```{r weigh-in-data}
 weight_hx <- 
     readr::read_csv(
@@ -207,42 +253,19 @@ flexdashboard::valueBox(
 ### No. of Races Ran
 
 ```{r total-races-ran-2024}
-flexdashboard::valueBox(
-    running_log |> 
-        filter(
-            run_year == 2024,
-            is_race == TRUE) |> 
-        count() |> 
-        tibble::deframe(),
-    icon = "fa-medal")
+flexdashboard::valueBox(lst_race_metrics[["y2024"]][["no_of_races"]], icon = "fa-medal")
 ```
 
 ### No. of Race Miles Ran
 
 ```{r total-race-mileage-2024}
-flexdashboard::valueBox(
-    running_log |> 
-        filter(
-            run_year == 2024,
-            is_race == TRUE) |> 
-        summarize(sum(distance_mile)) |> 
-        tibble::deframe(),
-    icon = "fa-person-running")
+flexdashboard::valueBox(lst_race_metrics[["y2024"]][["no_of_miles"]], icon = "fa-person-running")
 ```
 
 ### Average Race Pace (All Distances)
 
 ```{r average-race-pace-2024}
-flexdashboard::valueBox(
-    running_log |> 
-        filter(
-            run_year == 2024,
-            is_race == TRUE) |> 
-        summarize(mean(avg_pace)) |> 
-        tibble::deframe() |> 
-        hms::as_hms() |> 
-        hms::round_hms(digits = 0),
-    icon = "fa-gauge-high")
+flexdashboard::valueBox(lst_race_metrics[["y2024"]][["avg_pace"]], icon = "fa-gauge-high")
 ```
 
 Row
@@ -293,7 +316,7 @@ official_race_results_tbl |>
     filter(
         year(date) == 2024,
         !is.na(official_time)) |> 
-    select(date:official_pace) |> 
+    select(date:official_pace, -miles) |> 
     arrange(desc(date)) |> 
     DT::datatable(
         rownames = FALSE,
@@ -384,42 +407,19 @@ flexdashboard::valueBox(
 ### No. of Races Ran
 
 ```{r total-races-ran-2023}
-flexdashboard::valueBox(
-    running_log |> 
-        filter(
-            run_year == 2023,
-            is_race == TRUE) |> 
-        count() |> 
-        tibble::deframe(),
-    icon = "fa-medal")
+flexdashboard::valueBox(lst_race_metrics[["y2023"]][["no_of_races"]], icon = "fa-medal")
 ```
 
 ### No. of Race Miles Ran
 
 ```{r total-race-mileage-2023}
-flexdashboard::valueBox(
-    running_log |> 
-        filter(
-            run_year == 2023,
-            is_race == TRUE) |> 
-        summarize(sum(distance_mile)) |> 
-        tibble::deframe(),
-    icon = "fa-person-running")
+flexdashboard::valueBox(lst_race_metrics[["y2023"]][["no_of_miles"]], icon = "fa-person-running")
 ```
 
 ### Average Race Pace (All Distances)
 
 ```{r average-race-pace-2023}
-flexdashboard::valueBox(
-    running_log |> 
-        filter(
-            run_year == 2023,
-            is_race == TRUE) |> 
-        summarize(mean(avg_pace)) |> 
-        tibble::deframe() |> 
-        hms::as_hms() |> 
-        hms::round_hms(digits = 0),
-    icon = "fa-gauge-high")
+flexdashboard::valueBox(lst_race_metrics[["y2023"]][["avg_pace"]], icon = "fa-gauge-high")
 ```
 
 Row
@@ -453,7 +453,7 @@ official_race_results_tbl |>
     filter(
         year(date) == 2023,
         !is.na(official_time)) |> 
-    select(date:official_pace) |> 
+    select(date:official_pace, -miles) |> 
     arrange(desc(date)) |> 
     DT::datatable(
         rownames = FALSE,
@@ -544,42 +544,19 @@ flexdashboard::valueBox(
 ### No. of Races Ran
 
 ```{r total-races-ran-2022}
-flexdashboard::valueBox(
-    running_log |> 
-        filter(
-            run_year == 2022,
-            is_race == TRUE) |> 
-        count() |> 
-        tibble::deframe(),
-    icon = "fa-medal")
+flexdashboard::valueBox(lst_race_metrics[["y2022"]][["no_of_races"]], icon = "fa-medal")
 ```
 
 ### No. of Race Miles Ran
 
 ```{r total-race-mileage-2022}
-flexdashboard::valueBox(
-    running_log |> 
-        filter(
-            run_year == 2022,
-            is_race == TRUE) |> 
-        summarize(sum(distance_mile)) |> 
-        tibble::deframe(),
-    icon = "fa-person-running")
+flexdashboard::valueBox(lst_race_metrics[["y2022"]][["no_of_miles"]], icon = "fa-person-running")
 ```
 
 ### Average Race Pace (All Distances)
 
 ```{r average-race-pace-2022}
-flexdashboard::valueBox(
-    running_log |> 
-        filter(
-            run_year == 2022,
-            is_race == TRUE) |> 
-        summarize(mean(avg_pace)) |> 
-        tibble::deframe() |> 
-        hms::as_hms() |> 
-        hms::round_hms(digits = 0),
-    icon = "fa-gauge-high")
+flexdashboard::valueBox(lst_race_metrics[["y2022"]][["avg_pace"]], icon = "fa-gauge-high")
 ```
 
 Row
@@ -612,7 +589,7 @@ official_race_results_tbl |>
     filter(
         year(date) == 2022,
         !is.na(official_time)) |> 
-    select(date:official_pace) |> 
+    select(date:official_pace, -miles) |> 
     arrange(desc(date)) |> 
     DT::datatable(
         rownames = FALSE,
