@@ -113,26 +113,6 @@ running_log <-
         avg_pace)
 ```
 
-```{r nyrr-corral-placement-table, eval = FALSE}
-nyrr_best_pace_functional <- as_datetime(paste0("1899-12-30 00:07:50)"))
-nyrr_best_pace_pretty <- hms::as_hms(nyrr_best_pace_functional)
-
-nyrr_corral_placement_tbl <- 
-    googlesheets4::read_sheet("15iwn0ad1UlaviNjguH2JZq76tycSHvpNlcm10EO19JI") |> 
-    select(1:2) |> 
-    janitor::clean_names() |> 
-    slice(7:17) |> 
-    tidyr::unnest(cols = race_distance) |> 
-    mutate(
-        max_best_pace = race_distance,
-        min_best_pace = lag(max_best_pace) + 1,
-        best_pace_interval = min_best_pace %--% max_best_pace,
-        in_corral = if_else(nyrr_best_pace_functional %within% best_pace_interval, TRUE, FALSE),
-        in_corral = if_else(is.na(in_corral), FALSE, in_corral),
-        across(min_best_pace:max_best_pace, function(x) hms::as_hms(x))) |> 
-    select(corral = pace_units, in_corral, min_best_pace, max_best_pace)
-```
-
 ```{r official-race-results-table}
 official_race_results_tbl <- 
     googlesheets4::read_sheet("1tuC2WBHkDdGDOIbmgnZT32qw7pm4rCXma5Gp7eS41XQ") |> 
@@ -664,3 +644,72 @@ plotly::ggplotly(plt_weekly_mileage_2022, tooltip = "text")
 ```{r weight-tracking-2022}
 plt_wgt_tracking_list$y2022
 ```
+
+NYRR Corrals {data-orientation=columns}
+=====================================
+
+Column {data-width=150}
+-------------------------------------
+
+```{r nyrr-corral-metrics}
+nyrr_best_pace_functional <- as_datetime(paste0("1899-12-30 00:07:50)"))
+nyrr_best_pace_pretty <- hms::as_hms(nyrr_best_pace_functional)
+
+nyrr_corral_placement_tbl <- 
+    googlesheets4::read_sheet("15iwn0ad1UlaviNjguH2JZq76tycSHvpNlcm10EO19JI") |> 
+    select(1:2) |> 
+    janitor::clean_names() |> 
+    slice(7:17) |> 
+    tidyr::unnest(cols = race_distance) |> 
+    mutate(
+        max_best_pace = race_distance,
+        min_best_pace = lag(max_best_pace) + 1,
+        best_pace_interval = min_best_pace %--% max_best_pace,
+        in_corral = if_else(nyrr_best_pace_functional %within% best_pace_interval, TRUE, FALSE),
+        in_corral = if_else(is.na(in_corral), FALSE, in_corral),
+        across(min_best_pace:max_best_pace, function(x) hms::as_hms(x))) |> 
+    select(corral = pace_units, in_corral, min_best_pace, max_best_pace)
+```
+
+### **NYRR Best Pace***
+
+```{r nyrr-best-pace}
+flexdashboard::valueBox(nyrr_best_pace_pretty, icon = "fa-gauge-high")
+```
+
+### **NYRR Corrals and Current Placement**
+
+```{r nyrr-corral-placement-table}
+nyrr_corral_placement_tbl |> 
+    DT::datatable(
+        rownames = FALSE,
+        escape = FALSE,
+        options = list(
+            bPaginate = FALSE,
+            dom = "t",
+            columnDefs = list(list(targets = 1, visible = FALSE))),
+        colnames = c(
+            "Corral" = "corral",
+            "Min. Pace" = "min_best_pace",
+            "Max. Pace" = "max_best_pace")) |> 
+    DT::formatStyle(
+        columns = "corral",
+        valueColumns = "in_corral",
+        target = "row",
+        backgroundColor = DT::styleEqual(c(FALSE, TRUE), c("", "#aec7e0")))
+```
+
+###
+
+When registering for your first New York Road Runners (NYRR) race you are required to provide a best guess of your finishing time so they can properly seed you. Given that I was only still getting back into running, I entered a projected finish time that ultimately placed me in Corral I.  
+
+On race day--Race to Deliver 4M to Benefit God's Love We Deliver on 2022-11-20--I ended up needing a pit stop during the race and the wait on line for an available Porta Potty added several minutes to my finish time. As such, my first official corral placement, based on available race data, had me in Corral K.  
+
+It's been a steady progression forward since then.
+
+\*Per NYRR's [policy](https://www.nyrr.org/run/guidelines-and-procedures/race-procedures/calculated-pace-and-corral-updates), *"In order to provide a great runner experience at NYRR events, we calculate a best pace using standardized factors that normalize a time run at a distance of 5K or greater to an equivalent 10K time. This allows each runner’s true best performance to be used for corral placement."*  
+
+Column
+-------------------------------------
+
+[FUTURE CONTENT COMING HERE SOON. STAY TUNED.]
