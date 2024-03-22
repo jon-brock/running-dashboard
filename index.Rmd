@@ -282,30 +282,12 @@ running_log |>
     DT::datatable(
         rownames = FALSE,
         escape = FALSE,
-        options = list(bPaginate = FALSE),
+        options = list(bPaginate = FALSE, dom = "t"),
         colnames = c(
             "Date" = "run_date",
             "Time" = "run_time",
             "Distance" = "distance_mile",
             "Elevation Gain" = "total_elevation_gain",
-            "Average Pace" = "avg_pace"))
-```
-
-```{r race-metrics-table-2024, eval = FALSE}
-running_log |> 
-    filter(
-        run_year == 2024,
-        is_race == TRUE) |> 
-    select(name, run_date, run_time, distance_mile, avg_pace) |> 
-    DT::datatable(
-        rownames = FALSE,
-        escape = FALSE,
-        options = list(bPaginate = FALSE),
-        colnames = c(
-            "Race" = "name",
-            "Date" = "run_date",
-            "Time" = "run_time",
-            "Distance" = "distance_mile",
             "Average Pace" = "avg_pace"))
 ```
 
@@ -323,6 +305,7 @@ official_race_results_tbl |>
         escape = FALSE,
         options = list(
             bPaginate = FALSE,
+            dom = "t",
             columnDefs = list(
                 list(targets = 5, visible = FALSE),
                 list(targets = 1, render = DT::JS(
@@ -448,8 +431,7 @@ running_log |>
     DT::datatable(
         rownames = FALSE,
         escape = FALSE,
-        options = list(
-            bPaginate = FALSE),
+        options = list(bPaginate = FALSE, dom = "t"),
         colnames = c(
             "Date" = "run_date",
             "Time" = "run_time",
@@ -472,6 +454,7 @@ official_race_results_tbl |>
         escape = FALSE,
         options = list(
             bPaginate = FALSE,
+            dom = "t",
             columnDefs = list(
                 list(targets = 5, visible = FALSE),
                 list(targets = 1, render = DT::JS(
@@ -597,7 +580,7 @@ running_log |>
     DT::datatable(
         rownames = FALSE,
         escape = FALSE,
-        options = list(bPaginate = FALSE),
+        options = list(bPaginate = FALSE, dom = "t"),
         colnames = c(
             "Date" = "run_date",
             "Time" = "run_time",
@@ -620,6 +603,7 @@ official_race_results_tbl |>
         escape = FALSE,
         options = list(
             bPaginate = FALSE,
+            dom = "t",
             columnDefs = list(
                 list(targets = 5, visible = FALSE),
                 list(targets = 1, render = DT::JS(
