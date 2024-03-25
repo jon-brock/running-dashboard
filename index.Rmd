@@ -169,11 +169,8 @@ names(lst_race_metrics$y2024) <- c("no_of_races", "no_of_miles", "avg_pace")
 
 ```{r weigh-in-data}
 weight_hx <- 
-    readr::read_csv(
-        file = "./data/weight_history.csv",
-        show_col_types = FALSE,
-        name_repair = janitor::make_clean_names) |> 
-    mutate(date_time = parsedate::parse_date(date_time)) |> 
+    googlesheets4::read_sheet("1Gvs_fbePy6xoVDMAaVRJqdWSlD1t8I2MznuhTdELiyA") |> 
+    janitor::clean_names() |> 
     select(date_time, weight_lb, bmi)
 
 plt_wgt_tracking_list <-
@@ -648,7 +645,7 @@ plt_wgt_tracking_list$y2022
 NYRR Corrals {data-orientation=columns}
 =====================================
 
-Column {data-width=150}
+Column {data-width=225}
 -------------------------------------
 
 ```{r nyrr-corral-metrics}
