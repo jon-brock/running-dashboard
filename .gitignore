@@ -7,3 +7,4 @@ credentials.yaml
 code_sandbox.R
 *.RProj
 docs/README.html
+docs/credentials.yaml
