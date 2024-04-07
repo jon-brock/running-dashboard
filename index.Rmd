@@ -95,6 +95,7 @@ running_log <-
         pace_sec_per_km = round(elapsed_time / distance_km, 2),
         pace_sec_per_mile = round(pace_sec_per_km * 1.609344, 2),
         avg_pace = hms::hms(round(seconds_to_period(pace_sec_per_mile), 0)),
+        total_elevation_gain = round(total_elevation_gain * 3.281, 2),
         is_race = if_else(workout_type %in% 1, TRUE, FALSE),
         name = if_else(is_race == TRUE, name, NA)) |> 
     select(
@@ -263,8 +264,8 @@ running_log |>
         colnames = c(
             "Date" = "run_date",
             "Time" = "run_time",
-            "Distance" = "distance_mile",
-            "Elevation Gain" = "total_elevation_gain",
+            "Distance (miles)" = "distance_mile",
+            "Elevation Gain (ft)" = "total_elevation_gain",
             "Average Pace" = "avg_pace"))
 ```
 
@@ -412,8 +413,8 @@ running_log |>
         colnames = c(
             "Date" = "run_date",
             "Time" = "run_time",
-            "Distance" = "distance_mile",
-            "Elevation Gain" = "total_elevation_gain",
+            "Distance (miles)" = "distance_mile",
+            "Elevation Gain (ft)" = "total_elevation_gain",
             "Average Pace" = "avg_pace"))
 ```
 
@@ -561,8 +562,8 @@ running_log |>
         colnames = c(
             "Date" = "run_date",
             "Time" = "run_time",
-            "Distance" = "distance_mile",
-            "Elevation Gain" = "total_elevation_gain",
+            "Distance (miles)" = "distance_mile",
+            "Elevation Gain (ft)" = "total_elevation_gain",
             "Average Pace" = "avg_pace"))
 ```
 
