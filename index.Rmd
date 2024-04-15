@@ -120,6 +120,10 @@ official_race_results_tbl <-
     mutate(
         date = as_date(date),
         across(c(official_time, official_pace), function(x) hms::as_hms(x)))
+
+race_schedule <- 
+    official_race_results_tbl |> 
+    filter(is.na(official_time))
 ```
 
 ```{r official-race-results-metrics}
@@ -166,6 +170,44 @@ lst_race_metrics$y2024 <- list(lst_no_of_races$y2024, lst_no_of_miles$y2024, lst
 names(lst_race_metrics$y2022) <- c("no_of_races", "no_of_miles", "avg_pace")
 names(lst_race_metrics$y2023) <- c("no_of_races", "no_of_miles", "avg_pace")
 names(lst_race_metrics$y2024) <- c("no_of_races", "no_of_miles", "avg_pace")
+
+official_race_results_lst <-
+    purrr::map(
+        .x = 2022:year(Sys.Date()),
+        .f = (\(x) {
+            official_race_results_tbl |> 
+            filter(year(date) == x) |> 
+            mutate(race_status = if_else(is.na(official_time), "Future Race(s)", "Completed Race(s)")) |> 
+            select(race_status, date, race, corral, official_time, official_pace, url) |> 
+            group_by(race_status) |> 
+            arrange(desc(date), .by_group = TRUE) |> 
+            DT::datatable(
+                rownames = FALSE,
+                extensions = 'RowGroup',
+                escape = FALSE,
+                options = list(
+                    rowGroup = list(dataSrc = 0),
+                    bPaginate = FALSE,
+                    dom = "t",
+                    columnDefs = list(
+                        list(targets = c(0, 6), visible = FALSE),
+                        list(targets = 2, render = DT::JS(
+                            "function(data, type, row){
+                          if(type === 'display' && row[6] !== null){
+                            var a = '<a href=\"' + row[6] + '\">' + data + '</a>';
+                            return a;
+                          } else {
+                            return data;
+                          }
+                        }")))),
+                colnames = c(
+                    "Date" = "date",
+                    "Race" = "race",
+                    "Corral" = "corral",
+                    "Time" = "official_time",
+                    "Average Pace" = "official_pace"))
+        })) |> 
+    purrr::set_names(paste0("y", 2022:year(Sys.Date())))
 ```
 
 ```{r weigh-in-data}
@@ -272,35 +314,7 @@ running_log |>
 ### **2024 Official Race Results**
 
 ```{r race-official-data-table-2024}
-official_race_results_tbl |> 
-    filter(
-        year(date) == 2024,
-        !is.na(official_time)) |> 
-    select(date, race, corral, official_time, official_pace, url) |> 
-    arrange(desc(date)) |> 
-    DT::datatable(
-        rownames = FALSE,
-        escape = FALSE,
-        options = list(
-            bPaginate = FALSE,
-            dom = "t",
-            columnDefs = list(
-                list(targets = 5, visible = FALSE),
-                list(targets = 1, render = DT::JS(
-                    "function(data, type, row){
-                      if(type === 'display' && row[5] !== null){
-                        var a = '<a href=\"' + row[5] + '\">' + data + '</a>';
-                        return a;
-                      } else {
-                        return data;
-                      }
-                    }")))),
-        colnames = c(
-            "Date" = "date",
-            "Race" = "race",
-            "Corral" = "corral",
-            "Time" = "official_time",
-            "Average Pace" = "official_pace"))
+official_race_results_lst$y2024
 ```
 
 Row
@@ -421,35 +435,7 @@ running_log |>
 ### **2023 Official Race Results**
     
 ```{r race-official-data-table-2023}
-official_race_results_tbl |> 
-    filter(
-        year(date) == 2023,
-        !is.na(official_time)) |> 
-    select(date, race, corral, official_time, official_pace, url) |> 
-    arrange(desc(date)) |> 
-    DT::datatable(
-        rownames = FALSE,
-        escape = FALSE,
-        options = list(
-            bPaginate = FALSE,
-            dom = "t",
-            columnDefs = list(
-                list(targets = 5, visible = FALSE),
-                list(targets = 1, render = DT::JS(
-                    "function(data, type, row){
-                      if(type === 'display' && row[5] !== null){
-                        var a = '<a href=\"' + row[5] + '\">' + data + '</a>';
-                        return a;
-                      } else {
-                        return data;
-                      }
-                    }")))),
-        colnames = c(
-            "Date" = "date",
-            "Race" = "race",
-            "Corral" = "corral",
-            "Time" = "official_time",
-            "Average Pace" = "official_pace"))
+official_race_results_lst$y2023
 ```
 
 Row
@@ -570,35 +556,7 @@ running_log |>
 ### **2022 Official Race Results**
     
 ```{r race-official-data-table-2022}
-official_race_results_tbl |> 
-    filter(
-        year(date) == 2022,
-        !is.na(official_time)) |> 
-    select(date, race, corral, official_time, official_pace, url) |> 
-    arrange(desc(date)) |> 
-    DT::datatable(
-        rownames = FALSE,
-        escape = FALSE,
-        options = list(
-            bPaginate = FALSE,
-            dom = "t",
-            columnDefs = list(
-                list(targets = 5, visible = FALSE),
-                list(targets = 1, render = DT::JS(
-                    "function(data, type, row){
-                      if(type === 'display' && row[5] !== null){
-                        var a = '<a href=\"' + row[5] + '\">' + data + '</a>';
-                        return a;
-                      } else {
-                        return data;
-                      }
-                    }")))),
-        colnames = c(
-            "Date" = "date",
-            "Race" = "race",
-            "Corral" = "corral",
-            "Time" = "official_time",
-            "Average Pace" = "official_pace"))
+official_race_results_lst$y2022
 ```
    
 Row
