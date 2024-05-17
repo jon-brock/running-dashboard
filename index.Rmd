@@ -216,19 +216,26 @@ weight_hx <-
     janitor::clean_names() |> 
     select(date_time, weight_lb, bmi)
 
-plt_wgt_tracking_list <-
+plt_wgt_tracking_list <- 
     purrr::map(
         .x = 2022:year(Sys.Date()),
         .f = function(x) {
             plt <- 
                 weight_hx |> 
-                filter(between(
-                    date_time,
-                    as_datetime(glue::glue("{x}-01-01 00:00:00")),
-                    as_datetime(glue::glue("{x}-12-31 23:59:59")))) |> 
+                group_by(year = year(date_time), month = month(date_time, label = TRUE, abbr = FALSE)) |> 
+                summarize(avg_wgt = mean(weight_lb)) |> 
+                ungroup() |> 
+                mutate(date = make_date(year, month), .keep = "unused") |> 
+                padr::pad() |> 
+                padr::fill_by_function() |> 
+                filter(
+                    between(
+                        date,
+                        as_date(glue::glue("{x}-01-01")),
+                        as_date(glue::glue("{x}-12-31")))) |> 
                 ggplot() +
-                geom_line(aes(x = date_time, y = weight_lb), colour = "#739dc7") + 
-                scale_x_datetime(date_breaks = "1 month", date_labels = "%b %y") + 
+                geom_line(aes(x = date, y = avg_wgt), colour = "#739dc7") + 
+                scale_x_date(breaks = "1 month", date_labels = "%b %y") + 
                 scale_y_continuous("lbs", n.breaks = 12) + 
                 theme(
                     axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
