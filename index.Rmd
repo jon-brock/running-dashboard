@@ -615,7 +615,7 @@ Column {data-width=225}
 -------------------------------------
 
 ```{r nyrr-corral-metrics}
-nyrr_best_pace_functional <- as_datetime(paste0("1899-12-30 00:07:50)"))
+nyrr_best_pace_functional <- as_datetime(paste0("1899-12-30 00:07:28)"))
 nyrr_best_pace_pretty <- hms::as_hms(nyrr_best_pace_functional)
 
 nyrr_corral_placement_tbl <- 
