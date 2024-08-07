@@ -53,7 +53,7 @@ while (!done) {
   }
 }
 
-df <- jsonlite::rbind_pages(df_list)
+df <- bind_rows(df_list)
 ```
 
 ```{r calendar-dates}
