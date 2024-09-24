@@ -251,7 +251,7 @@ plt_wgt_tracking_list <-
 Row
 -------------------------------------
 
-### No. of Miles Ran
+### No. of Miles Ran (incl. Races)
 
 ```{r total-mileage-2024}
 flexdashboard::valueBox(
@@ -309,7 +309,12 @@ running_log |>
     DT::datatable(
         rownames = FALSE,
         escape = FALSE,
-        options = list(bPaginate = FALSE, dom = "t"),
+        options = list(
+            bPaginate = FALSE, dom = "t",
+            columnDefs = list(
+                list(
+                    className = 'dt-right',
+                    targets = 3))),
         colnames = c(
             "Date" = "run_date",
             "Time" = "run_time",
@@ -372,7 +377,7 @@ plt_wgt_tracking_list$y2024
 Row
 -------------------------------------
 
-### No. of Miles Ran
+### No. of Miles Ran (incl. Races)
 
 ```{r total-mileage-2023}
 flexdashboard::valueBox(
@@ -430,7 +435,12 @@ running_log |>
     DT::datatable(
         rownames = FALSE,
         escape = FALSE,
-        options = list(bPaginate = FALSE, dom = "t"),
+        options = list(
+            bPaginate = FALSE, dom = "t",
+            columnDefs = list(
+                list(
+                    className = 'dt-right',
+                    targets = 3))),
         colnames = c(
             "Date" = "run_date",
             "Time" = "run_time",
@@ -493,7 +503,7 @@ plt_wgt_tracking_list$y2023
 Row
 -------------------------------------
 
-### No. of Miles Ran
+### No. of Miles Ran (incl. Races)
 
 ```{r total-mileage-2022}
 flexdashboard::valueBox(
@@ -551,7 +561,12 @@ running_log |>
     DT::datatable(
         rownames = FALSE,
         escape = FALSE,
-        options = list(bPaginate = FALSE, dom = "t"),
+        options = list(
+            bPaginate = FALSE, dom = "t",
+            columnDefs = list(
+                list(
+                    className = 'dt-right',
+                    targets = 3))),
         colnames = c(
             "Date" = "run_date",
             "Time" = "run_time",
