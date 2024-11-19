@@ -258,7 +258,8 @@ flexdashboard::valueBox(
     running_log |> 
         filter(run_year == 2024) |> 
         summarize(sum(distance_mile)) |> 
-        tibble::deframe(),
+        tibble::deframe() |> 
+        format(big.mark = ","),
     icon = "fa-person-running")
 ```
 
